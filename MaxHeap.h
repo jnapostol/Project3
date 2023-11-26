@@ -4,7 +4,7 @@ using namespace std;
 
 void heapifyDown(int arr[], int size, int parentIndex);
 
-int* extractMax(int arr[], int size)
+int* extractMax(int arr[], int size) // return the data we want (most wins/most kills associated with an agent) might use with a priority queue?
 {
     // set the last element equal to the first
     arr[0] = arr[size-1];
