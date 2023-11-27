@@ -8,13 +8,20 @@ using namespace std;
 
 // using a priority queue (max heap) with tuple
 
-priority_queue<tuple<int, float, string>> name; // syntax for pq
-tuple<int, float, string> Tuple = name.top(); // getting the max elements in the heap
-tuple<int, float, string> bbrt = make_tuple(1,1.0, "friend"); // initializing the tuple with values
-int ex = get<0>(bbrt); // is how to get the first tuple element
+priority_queue<tuple<float, float, float, float, string>> pq; // winrate, pickrate, acs, kda, agent
+tuple<float, float, float, float, string> Tuple = pq.top(); // getting the max elements in the heap
+tuple<float, float, float, float, string> _data = make_tuple(10.0,50.0, 555.1, 66.2, "friend"); // initializing the tuple with values
 
 void function() {
-    Tuple = bbrt; // assigning tuple to values
+    Tuple = _data; // assigning tuple to values
+
+    int ex = get<0>(Tuple); // is how to get the first tuple element aka the winrate
+    int ex2 = get<1>(Tuple); // is how to get the first tuple element aka the winrate
+    int ex3 = get<2>(Tuple); // is how to get the first tuple element aka the winrate
+    int ex4 = get<3>(Tuple); // is how to get the first tuple element aka the winrate
+    string ex5 = get<4>(Tuple); // is how to get the first tuple element aka the winrate
+
+    pq.pop(); // gets rid of the root (max in heap);
 };
 
 
