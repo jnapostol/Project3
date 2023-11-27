@@ -4,6 +4,7 @@
 #include <fstream>		// Access to of-, if-, fstream
 #include <string>
 #include "CharStats.h"
+#include "MaxHeap.h"
 using namespace std;
 
 void GetDataFromCSVFile(const char* filepath)
