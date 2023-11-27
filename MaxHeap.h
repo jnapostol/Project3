@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <tuple>
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -9,8 +10,12 @@ using namespace std;
 
 priority_queue<tuple<int, float, string>> name; // syntax for pq
 tuple<int, float, string> Tuple = name.top(); // getting the max elements in the heap
-cout << get<0>(Tuple) << endl;
+tuple<int, float, string> bbrt = make_tuple(1,1.0, "friend"); // initializing the tuple with values
+int ex = get<0>(bbrt); // is how to get the first tuple element
 
+void function() {
+    Tuple = bbrt; // assigning tuple to values
+};
 
 
 
