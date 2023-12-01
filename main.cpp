@@ -1,69 +1,77 @@
 #include <iostream>
 #include <iomanip>
-#include <iostream>
 #include <fstream>		// Access to of-, if-, fstream
 #include <string>
-#include "CharStats.h"
+#include <vector>
+#include "CharacterStats.h"
 using namespace std;
 
-void GetDataFromCSVFile(const char* filepath)
+void GetData(string& filepath)
 {
-    ifstream inFile(filepath);
+    vector<int> gameIDs;
+
+    ifstream inFile;
     inFile.open(filepath);
 
-    if (inFile.is_open())
+    if(!inFile.is_open())
     {
-        // Read the heading data from the file
-        string lineFromFile;
-        getline(inFile, lineFromFile);
+        cout << filepath << " was NOT opened!" << endl;
+    }
 
-        // Get all entries from the file, one line at a time
-        while (getline(inFile, lineFromFile))
+    // Read the heading data from the file
+    string lineFromFile;
+    getline(inFile, lineFromFile);
+
+    // Get all entries from the file, one line at a time
+    while (getline(inFile, lineFromFile))
+    {
+        // Create a stream from the line of data from the file
+        istringstream stream(lineFromFile);
+
+        CharacterStats s;		// Create object s, which is an individual character's set of stats
+        string temp_gameID;     // GameID is the first column in both files
+
+        //inFile >> temp_gameID;
+        getline(stream, temp_gameID, ',');		// Separate the single line of data into its constituent parts
+        int gameID = stoi(temp_gameID);
+        //cout << temp_gameID << endl;
+        gameIDs.push_back(gameID);       // how to store the gameIDs? Used for connecting map to a character
+
+        /*if (filepath == "data/Game_Scoreboard.csv")
         {
-            // Create a stream from the line of data from the file
-            istringstream stream(lineFromFile);
+            string agentName;
+            string temp_ACS, temp_kills, temp_deaths, temp_assists;		// Tokens to be converted from string into original datatypes
 
-            string setName = "";
-            string setTheme = "";
-            int setNumber = 0;
-            int numberMinifigures = 0;
-            int pieceCount = 0;
-            float setPrice = 0;
+            getline(stream, agentName, ',');		// Separate the single line of data into its constituent parts
+            s.agentName = agentName;                            // Set each of these values as an attribute of the character stats
 
-            string temp_setNumber, temp_numberMinifigures, temp_pieceCount;		// Tokens to be converted from string into original datatypes
-            string temp_setPrice;
-
-            CharStats s;		// Create object s, which is an individual legoset
-
-            getline(stream, temp_setNumber, ',');		// Separate the single line of data into its constituent parts
-            s.setNumber = stoi(temp_setNumber);			// Set each of these values as an attribute of the legoset
-
-            legosets.push_back(s);		// Add that legoset to the vector of legosets
-
-        }
-    }
-    else
-    {
-        cout << filepath << " was not opened!" << endl;
+            getline(stream, temp_ACS, ',');
+            s.acs = stoi(temp_ACS);
+        }*/
+        // Add that CharacterStats object to the 2D array
     }
 
+    for (int i = 0; i < gameIDs.size(); i++)
+        cout << gameIDs[i] << endl;
+
+    inFile.close();
 }
 
 int main() {
 
-    const char* filepath1 = "data/Game_Scoreboard.xlsx";
-    const char* filepath2 = "data/Games.xlsx";
-
-    
+    string gameScoreboard = "Game_Scoreboard.csv";
+    string games = "Games.csv";
+    GetData(gameScoreboard);
+    //GetData(games);
+    //GetData(filepath2);
 
     // menu options
-    cout << "Welcome to our Professional Valorant Match Agent Statistics program!" << endl;
+    cout << "\nWelcome to our Professional Valorant Match Agent Statistics program!" << endl;
     cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
     cout << "Pick a data structure to load the stats into." << endl;
     cout << "1) Map" << endl << "2) Max Heap" << endl;
 
     // input parsing
-
     return 0;
 }
 
