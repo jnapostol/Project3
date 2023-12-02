@@ -7,74 +7,13 @@
 #include "CharacterStats.h"
 using namespace std;
 
-void GetData(string& filepath)
-{
-    vector<int> gameIDs;
-    map<int, pair<string, bool>> MapStorage;
+static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
+static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
+static map<string, int> MapNameToIndex; //does the same for map name
+static int GamesOnEachMap[7];
+map<int, pair<string, bool>> GamesInfo;
 
-    ifstream inFile;
-    inFile.open(filepath);
-
-    if(!inFile.is_open())
-        cout << filepath << " was NOT opened!" << endl;
-
-    // Read the heading data from the file
-    string lineFromFile, word;
-    getline(inFile, lineFromFile);
-    vector<string> row;
-    vector<vector<string>> rows;
-
-    while (getline(inFile, lineFromFile))       // Get all entries from the file, one line at a time
-    {
-        row.clear();
-
-        getline(inFile, lineFromFile);
-
-        istringstream stream(lineFromFile);     // Create a stream from the line of data from the file
-
-        while (getline(stream, word, ','))
-            row.push_back(word);
-
-        /*CharacterStats s;		// Create object s, which is an individual character's set of stats
-        string temp_gameID;     // GameID is the first column in both files
-        int gameID = stoi(temp_gameID);*/
-
-        rows.push_back(row);
-
-        /*getline(stream, temp_gameID, ',');		// Separate the single line of data into its constituent parts
-        int gameID = stoi(temp_gameID);
-
-        gameIDs.push_back(gameID);       // how to store the gameIDs? Used for connecting map to a character
-
-        if (filepath == "Games.csv")
-        {
-
-        }*/
-        /*if (filepath == "Game_Scoreboard.csv")
-        {
-            string agentName;
-            string temp_ACS, temp_kills, temp_deaths, temp_assists;		// Tokens to be converted from string into original datatypes
-
-            getline(stream, agentName, ',');		// Separate the single line of data into its constituent parts
-            s.agentName = agentName;                            // Set each of these values as an attribute of the character stats
-
-            getline(stream, temp_ACS, ',');
-            s.acs = stoi(temp_ACS);
-        }*/
-        // Add gameID and mapName and ifWon bool in mapStorage
-    }
-
-    for (int i = 0; i < rows.size(); i++)
-    {
-        //for (int j = 0; j < row.size(); j++)
-        cout << "GameID " << rows[i][0] << ", " << rows[i][2] << endl;
-    }
-
-    inFile.close();
-}
-
-int main() {
-    static map<string, int> CharNameToIndex;
+void InitializeCharToIndex() {
     CharNameToIndex["Astra"] = 0;
     CharNameToIndex["Breach"] = 1;
     CharNameToIndex["Brimstone"] = 2;
@@ -92,8 +31,8 @@ int main() {
     CharNameToIndex["Sova"] = 14;
     CharNameToIndex["Viper"] = 15;
     CharNameToIndex["Yoru"] = 16;
-
-    static map<string, int> MapNameToIndex;
+}
+void InitializeMapToIndex() {
     MapNameToIndex["Ascent"] = 0;
     MapNameToIndex["Bind"] = 1;
     MapNameToIndex["Breeze"] = 2;
@@ -101,12 +40,188 @@ int main() {
     MapNameToIndex["Haven"] = 4;
     MapNameToIndex["Icebox"] = 5;
     MapNameToIndex["Split"] = 6;
+}
+void GetScoreboardData(const char* filepath)
+{
+    ifstream inFile(filepath);
 
-    static CharacterStats arr[17][7]; //initialize the 2-D array
-    string gameScoreboard = "Game_Scoreboard.csv";
-    string games = "Games.csv";
+    if(!inFile.is_open())
+    {
+        cout << filepath << " was NOT opened!" << endl;
+    }
+
+    // Read the heading data from the file
+    string lineFromFile, word;
+    getline(inFile, lineFromFile);
+    vector<string> row;
+    vector<vector<string>> rows;
+
+    string currentMapName = "";
+    bool team1Won = false;
+    int counter = 0;
+    // Get all entries from the file, one line at a time
+    while (getline(inFile, lineFromFile))
+    {
+        row.clear();
+
+        // Create a stream from the line of data from the file
+        istringstream stream(lineFromFile);
+
+        while (getline(stream, word, ',')) {
+            //cout<<"Word: " <<word <<endl;
+            row.push_back(word);
+        }
+
+        rows.push_back(row);
+    }
+
+    string agentName;
+    string _gameID, _kills, _deaths, _assists, _acs;
+    for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
+
+        if (counter == 10 || counter == 0) { // we've reached the last player in the first game
+            counter = 0; // reset the counter
+            _gameID = rows[i][0]; // get the game ID
+            cout << "GAME ID: " << _gameID << endl;
+            currentMapName = GamesInfo[stoi(_gameID)].first;
+            cout << "CURRENT MAP: " << currentMapName << endl;
+            team1Won = GamesInfo[stoi(_gameID)].second;
+        }
+
+        cout << rows[i][4] << endl; // Agent Name
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = agentName;
+
+        counter++;
+        //cout << "GameID: " << rows[i][0] << endl;
+        //cout << "Team Name: " << rows[i][3] << endl;
+        //cout << "Agent Name: " << rows[counter][4] << endl;*/
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].acs += stoi(rows[i][5]);
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].kills += stoi(rows[i][6]);
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].deaths += stoi(rows[i][7]);
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].assists += stoi(rows[i][8]);
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked++;
+        if(team1Won && counter < 6) {
+            arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
+        } else {
+            if(counter >= 6) {
+                arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
+            }
+        }
+        //cout << "ACS: " << rows[i][5] << endl;
+        //cout << "Kills: " << rows[i][6] << endl;
+        //cout << "Deaths: " << rows[i][7] << endl;
+        //cout << "Assists: " << rows[i][8] << endl;
+
+
+
+        /*
+
+        getline(stream, _gameID, ',');
+        getline(stream, agentName, ',');
+        getline(stream, _gameID, ',');
+        getline(stream, _kills, ',');
+        getline(stream, _deaths, ',');
+        getline(stream, _assists, ',');
+        getline(stream, _acs, ',');
+
+        if (counter == 10) { // we've reached the last player in the first game
+            counter = 0; // reset the counter
+
+            GamesInfo[stoi(_gameID)].first = currentMapName; // store current map name from ziad's data
+            GamesInfo[stoi(_gameID)].second = teamWon;// store bool if team won from ziad's data
+
+        }
+        cout << "ARW" << endl;
+        counter++;
+        //BUG STOI issue
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].agentName = agentName;
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numTimesPicked++;
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].kills += stoi(_kills);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].deaths += stoi(_deaths);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].assists += stoi(_assists);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].acs += stoi(_acs);
+
+
+        cout << "pp" << endl;
+
+        if(teamWon && counter < 6) {
+                    cout << "poopoo" << endl;
+
+            arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
+        }
+        else {
+            if (counter >= 6) {
+                arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
+            }
+        }*/
+
+    }
+    inFile.close();
+}
+void GetData(const char* filepath)
+{
+    map<int, pair<string, bool>> MapStorage;
+    vector<int> gameIDs;
+
+    ifstream inFile(filepath);
+
+    if(!inFile.is_open())
+    {
+        cout << filepath << " was NOT opened!" << endl;
+    }
+    // Read the heading data from the file
+    string lineFromFile;
+    getline(inFile, lineFromFile);
+
+    // Get all entries from the file, one line at a time
+    while (getline(inFile, lineFromFile))
+    {
+        // Create a stream from the line of data from the file
+        istringstream stream(lineFromFile);
+
+        //CharacterStats s;
+        string game_ID;
+        string random;
+        string map_name;
+        string team1_name;
+        string winner;
+        getline(stream, game_ID, ',');
+        getline(stream, random, ',');
+        getline(stream, map_name, ',');
+        getline(stream, random, ',');
+        getline(stream, random, ',');
+        getline(stream, team1_name, ',');
+        getline(stream, random, ',');
+        getline(stream, winner, ',');
+
+
+        //cout << game_ID <<" " <<map_name <<" " <<team1_name <<" " <<winner << endl;
+        GamesOnEachMap[MapNameToIndex[map_name]]++;
+        bool Team1Win = false;
+        if (winner == team1_name) {
+            Team1Win = true;
+        }
+        GamesInfo[stoi(game_ID)] = make_pair(map_name, Team1Win);
+    }
+
+    for (int i = 0; i < 7; i++) {
+        cout << GamesOnEachMap[i] <<endl;
+    }
+    /*for(auto it = GamesInfo.begin(); it != GamesInfo.end(); it++) {
+        cout<<it->first <<" " <<it->second.first <<" " <<it->second.second <<endl;
+    }*/
+
+    inFile.close();
+}
+
+int main() {
+    InitializeCharToIndex();
+    InitializeMapToIndex();
+    const char* gameScoreboard = "Scoreboard";
+    const char* games = "Games";
     GetData(games);
-    //GetData(gameScoreboard);
+    GetScoreboardData(gameScoreboard);
+
 
     // menu options
     cout << "\nWelcome to our Professional Valorant Match Agent Statistics program!" << endl;
