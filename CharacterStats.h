@@ -32,8 +32,8 @@ public:
         return kda;
     }
 
-    float PickRateCalculator() { // note that numGames played on each map is a per map variable
+    /*float PickRateCalculator() { // note that numGames played on each map is a per map variable
         float pickRate = numGamesPicked/numGames;
         return pickRate;
-    }
+    }*/
 };

@@ -6,7 +6,6 @@
 #include <map>
 #include "CharacterStats.h"
 using namespace std;
-
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
 static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
 static map<string, int> MapNameToIndex; //does the same for map name
@@ -41,7 +40,7 @@ void InitializeMapToIndex() {
     MapNameToIndex["Icebox"] = 5;
     MapNameToIndex["Split"] = 6;
 }
-void GetScoreboardData(const char* filepath)
+void GetScoreboardData(string& filepath)
 {
     ifstream inFile(filepath);
 
@@ -99,7 +98,7 @@ void GetScoreboardData(const char* filepath)
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].kills += stoi(rows[i][6]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].deaths += stoi(rows[i][7]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].assists += stoi(rows[i][8]);
-        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked++;
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked += stoi(rows[i][8]);
         if(team1Won && counter < 6) {
             arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
         } else {
@@ -112,63 +111,20 @@ void GetScoreboardData(const char* filepath)
         //cout << "Deaths: " << rows[i][7] << endl;
         //cout << "Assists: " << rows[i][8] << endl;
 
-
-
-        /*
-
-        getline(stream, _gameID, ',');
-        getline(stream, agentName, ',');
-        getline(stream, _gameID, ',');
-        getline(stream, _kills, ',');
-        getline(stream, _deaths, ',');
-        getline(stream, _assists, ',');
-        getline(stream, _acs, ',');
-
-        if (counter == 10) { // we've reached the last player in the first game
-            counter = 0; // reset the counter
-
-            GamesInfo[stoi(_gameID)].first = currentMapName; // store current map name from ziad's data
-            GamesInfo[stoi(_gameID)].second = teamWon;// store bool if team won from ziad's data
-
-        }
-        cout << "ARW" << endl;
-        counter++;
-        //BUG STOI issue
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].agentName = agentName;
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numTimesPicked++;
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].kills += stoi(_kills);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].deaths += stoi(_deaths);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].assists += stoi(_assists);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].acs += stoi(_acs);
-
-
-        cout << "pp" << endl;
-
-        if(teamWon && counter < 6) {
-                    cout << "poopoo" << endl;
-
-            arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
-        }
-        else {
-            if (counter >= 6) {
-                arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
-            }
-        }*/
-
     }
     inFile.close();
 }
-void GetData(const char* filepath)
+void GetData(string& filepath)
 {
-    map<int, pair<string, bool>> MapStorage;
     vector<int> gameIDs;
+    map<int, pair<string, bool>> GamesInfo;
 
-    ifstream inFile(filepath);
+    ifstream inFile;
+    inFile.open(filepath);
 
     if(!inFile.is_open())
-    {
         cout << filepath << " was NOT opened!" << endl;
-    }
+
     // Read the heading data from the file
     string lineFromFile;
     getline(inFile, lineFromFile);
@@ -179,7 +135,6 @@ void GetData(const char* filepath)
         // Create a stream from the line of data from the file
         istringstream stream(lineFromFile);
 
-        //CharacterStats s;
         string game_ID;
         string random;
         string map_name;
@@ -193,7 +148,6 @@ void GetData(const char* filepath)
         getline(stream, team1_name, ',');
         getline(stream, random, ',');
         getline(stream, winner, ',');
-
 
         //cout << game_ID <<" " <<map_name <<" " <<team1_name <<" " <<winner << endl;
         GamesOnEachMap[MapNameToIndex[map_name]]++;
@@ -217,11 +171,11 @@ void GetData(const char* filepath)
 int main() {
     InitializeCharToIndex();
     InitializeMapToIndex();
-    const char* gameScoreboard = "Scoreboard";
-    const char* games = "Games";
+    string gameScoreboard = "Game_Scoreboard.csv";
+    string games = "Games.csv";
     GetData(games);
     GetScoreboardData(gameScoreboard);
-
+    //GetData(gameScoreboard);
 
     // menu options
     cout << "\nWelcome to our Professional Valorant Match Agent Statistics program!" << endl;
