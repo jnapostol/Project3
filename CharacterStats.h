@@ -1,4 +1,5 @@
 #include <string>
+#pragma once
 
 using namespace std;
 //for each row of scoreboard we add ACS, deaths, kills, games played and assists to the map specific values for each character

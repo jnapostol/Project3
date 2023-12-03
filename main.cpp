@@ -5,8 +5,10 @@
 #include <fstream>		// Access to of-, if-, fstream
 #include <vector>
 #include <tuple>
-#include <queue>
+#include <bits/stdc++.h>
 #include "CharacterStats.h"
+#include "MaxHeap.h"
+
 
 using namespace std;
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
@@ -97,7 +99,6 @@ void GetScoreboardData(string& filepath)
         istringstream stream(lineFromFile);
 
         while (getline(stream, word, ',')) {
-            //cout<<"Word: " <<word <<endl;
             row.push_back(word);
         }
 
@@ -120,8 +121,6 @@ void GetScoreboardData(string& filepath)
             //cout << "CURRENT MAP: " << currentMapName << endl;
             team1Won = GamesInfo[stoi(_gameID)].second;
         }
-
-        //cout << rows[i][4] << endl; // Agent Name
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = rows[i][4];
 
         counter++;
@@ -203,6 +202,10 @@ void GetData(string& filepath)
     {
         cout << filepath << " was NOT opened!" << endl;
     }
+    else
+    {
+        cout << "Loading..." << endl;
+    }
     // Read the heading data from the file
     string lineFromFile;
     getline(inFile, lineFromFile);
@@ -238,9 +241,10 @@ void GetData(string& filepath)
         GamesInfo[stoi(game_ID)] = make_pair(map_name, Team1Win);
     }
 
-    for (int i = 0; i < 7; i++) {
+    /*for (int i = 0; i < 7; i++) {
         cout << GamesOnEachMap[i] <<endl;
-    }
+    }*/
+
     /*for(auto it = GamesInfo.begin(); it != GamesInfo.end(); it++) {
         cout<<it->first <<" " <<it->second.first <<" " <<it->second.second <<endl;
     }*/
@@ -287,37 +291,48 @@ void CreateCalculatedMap() {
 }
 void CreateCalculatedHeap() {
     cout << "ENTER Heap Calculator"<< endl;
-    vector<priority_queue<tuple<float, string, float, float, float>>> heapOfHeaps; // create a vector of heapOfHeaps
-    // each heap contains 17 agents. each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
-    // the index of each heap is the MapName: Bind, Breeze, Fracture, etc.
 
-    priority_queue<tuple<float, string, float, float, float>> pq; // winrate, AgentName pickrate, acs, kda
+    vector<MaxHeap> heapOfHeaps; // create a vector of heaps
+    // each heap contains 17 agents. each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
 
     string currentAgentOnMap;
     float calc_KDA, calc_ACS, win_Rate,pick_Rate;
-    tuple<float, string, float, float, float> agentData;
+
+    // tuple<float, string, float, float, float> agentData;
 
     for (int i = 0; i < 7; i++) { // loop through map
+        MaxHeap heapObject(17);
         for (int j = 0; j < 17; j++) { //loop through array
-            currentAgentOnMap = arr[j][i].agentName; // get the current agent name
-            cout << "Agent: " << currentAgentOnMap << endl;
-            win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
-            cout << "WinRate:  " << win_Rate << endl;
-            calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
-            cout << "ACS: " << calc_ACS << endl;
-            calc_KDA = arr[j][i].KDACalculator();
-            cout << "KDA: " << calc_KDA << endl;
-            pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
-            cout << "PickRate: " << pick_Rate << endl;
 
-            tuple<float, string, float, float, float> _tuple = make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA); // make tuple with agent data
-            agentData = _tuple;
-            pq.push(agentData);
-            heapOfHeaps.push_back(pq);// store in the pq
+            currentAgentOnMap = arr[j][i].agentName; // get the current agent name
+            win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
+            calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
+            calc_KDA = arr[j][i].KDACalculator();
+            pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
+
+            cout << "Agent: " << currentAgentOnMap << " WinRate:  " << win_Rate << " ACS: " << calc_ACS << " KDA: " << calc_KDA << " PickRate: " << pick_Rate << endl;
+
+            // tuple<float, string, float, float, float> _tuple = make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA); // make tuple with agent data
+            // agentData = _tuple;
+            cout << "INSERTING DATA INTO HEAP" << endl;
+
+            heapObject.Insert(make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA));
+
         }
+        cout << "PUSHING HEAP INTO VECTOR" << endl;
+        heapOfHeaps.push_back(heapObject); // 7 maps each with 17 agents
+    }
+
+    // MaxHeap obj;
+    cout << "EXTRACTING THE MAX" << endl;
+    for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
+        cout << "Max of map " << k << " " <<  endl;
+        heapOfHeaps[k].extractMax();
+
     }
 
 }
+
 void PrintTable()
 {
     using std::setw;
