@@ -4,4 +4,6 @@ project(Project3b)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Project3b main.cpp
-        MaxHeap.h)
+        MaxHeap.h
+        CharacterStats.cpp
+        CharacterStats.h)
