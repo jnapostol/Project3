@@ -1,14 +1,14 @@
+#include <string>
 #include <iostream>
+#include <map>
 #include <iomanip>
 #include <fstream>		// Access to of-, if-, fstream
-#include <string>
 #include <vector>
-#include <map>
-#include <queue>
 #include <tuple>
+#include <queue>
 #include "CharacterStats.h"
-using namespace std;
 
+using namespace std;
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
 static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
 static map<string, int> MapNameToIndex; //does the same for map name
@@ -61,6 +61,14 @@ void InitializeMapToIndex() {
     MapNameToIndex["Haven"] = 4;
     MapNameToIndex["Icebox"] = 5;
     MapNameToIndex["Split"] = 6;
+    //lowercase
+    MapNameToIndex["ascent"] = 0;
+    MapNameToIndex["bind"] = 1;
+    MapNameToIndex["breeze"] = 2;
+    MapNameToIndex["fracture"] = 3;
+    MapNameToIndex["haven"] = 4;
+    MapNameToIndex["icebox"] = 5;
+    MapNameToIndex["split"] = 6;
 }
 void GetScoreboardData(string& filepath)
 {
@@ -98,24 +106,9 @@ void GetScoreboardData(string& filepath)
 
     string agentName;
     string _gameID, _kills, _deaths, _assists, _acs;
-
-    while (getline(inFile, lineFromFile))
-    {
-        row.clear();
-
-        // Create a stream from the line of data from the file
-        istringstream stream(lineFromFile);
-
-        while (getline(stream, word, ',')) {
-            //cout<<"Word: " <<word <<endl;
-            row.push_back(word);
-        }
-
-        rows.push_back(row);
-    }
-
     bool isPicked[17];
     for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
+
         if (counter == 10 || counter == 0) { // we've reached the last player in the first game
             for(int j = 0; j < 17; j++) {
                 isPicked[j] = false;
@@ -132,8 +125,6 @@ void GetScoreboardData(string& filepath)
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = rows[i][4];
 
         counter++;
-
-
         //cout << "GameID: " << rows[i][0] << endl;
         //cout << "Team Name: " << rows[i][3] << endl;
         //cout << "Agent Name: " << rows[counter][4] << endl;*/
@@ -157,21 +148,61 @@ void GetScoreboardData(string& filepath)
         //cout << "Kills: " << rows[i][6] << endl;
         //cout << "Deaths: " << rows[i][7] << endl;
         //cout << "Assists: " << rows[i][8] << endl;
+        /*
+
+        getline(stream, _gameID, ',');
+        getline(stream, agentName, ',');
+        getline(stream, _gameID, ',');
+        getline(stream, _kills, ',');
+        getline(stream, _deaths, ',');
+        getline(stream, _assists, ',');
+        getline(stream, _acs, ',');
+
+        if (counter == 10) { // we've reached the last player in the first game
+            counter = 0; // reset the counter
+
+            GamesInfo[stoi(_gameID)].first = currentMapName; // store current map name from ziad's data
+            GamesInfo[stoi(_gameID)].second = teamWon;// store bool if team won from ziad's data
+
+        }
+        cout << "ARW" << endl;
+        counter++;
+        //BUG STOI issue
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].agentName = agentName;
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numTimesPicked++;
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].kills += stoi(_kills);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].deaths += stoi(_deaths);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].assists += stoi(_assists);
+        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].acs += stoi(_acs);
+
+
+        cout << "pp" << endl;
+
+        if(teamWon && counter < 6) {
+                    cout << "poopoo" << endl;
+
+            arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
+        }
+        else {
+            if (counter >= 6) {
+                arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
+            }
+        }*/
 
     }
     inFile.close();
 }
 void GetData(string& filepath)
 {
+    map<int, pair<string, bool>> MapStorage;
     vector<int> gameIDs;
-    map<int, pair<string, bool>> GamesInfo;
 
-    ifstream inFile;
-    inFile.open(filepath);
+    ifstream inFile(filepath);
 
     if(!inFile.is_open())
+    {
         cout << filepath << " was NOT opened!" << endl;
-
+    }
     // Read the heading data from the file
     string lineFromFile;
     getline(inFile, lineFromFile);
@@ -182,6 +213,7 @@ void GetData(string& filepath)
         // Create a stream from the line of data from the file
         istringstream stream(lineFromFile);
 
+        //CharacterStats s;
         string game_ID;
         string random;
         string map_name;
@@ -195,6 +227,7 @@ void GetData(string& filepath)
         getline(stream, team1_name, ',');
         getline(stream, random, ',');
         getline(stream, winner, ',');
+
 
         //cout << game_ID <<" " <<map_name <<" " <<team1_name <<" " <<winner << endl;
         GamesOnEachMap[MapNameToIndex[map_name]]++;
@@ -228,8 +261,7 @@ void CreateCalculatedMap() {
             cout<<"row " <<j <<" column " <<i <<endl;
             //cout<<arr[11][2].kills <<" " <<CharNameToIndex["reyna"] <<endl;
             //cout<<"Win Rate = " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numGamesWon <<" NumTimesPicked " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numTimesPicked;
-
-            cout << "Times picked: "  << arr[j][i].numTimesPicked << endl;
+            cout<<"Times Picked: " <<arr[j][i].numTimesPicked <<endl;
             if(arr[j][i].numTimesPicked == 0) {
                 win_rate = 0;
                 pick_rate = 0;
@@ -243,12 +275,13 @@ void CreateCalculatedMap() {
             }
             cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
             CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
+            cout<<"inserted at " <<i <<endl;
         }
     }
     for(int i = 0; i < 7; i++) {
         cout<<"\n\n\nMap: " <<i <<endl;
-        for(auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end(); it++) {
-            cout<<"Character: " <<get<0>(it->second) <<" Win Rate: "<<" " <<it->first <<" Pick Rate: " <<get<1>(it->second) <<" ACS: " <<get<2>(it->second) <<" KDA: " <<get<3>(it->second) <<endl;
+        for(const auto it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++ //const auto it : CalculatedMapData[i]
+            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
         }
     }
 }
@@ -316,7 +349,7 @@ int main() {
             break;
         case 2:
             CreateCalculatedHeap();
-
+            break;
         default:
             cout << "default" << endl;
     }
