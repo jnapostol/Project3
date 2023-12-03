@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <queue>
+#include <tuple>
 #include "CharacterStats.h"
 using namespace std;
 
@@ -32,6 +34,24 @@ void InitializeCharToIndex() {
     CharNameToIndex["Sova"] = 14;
     CharNameToIndex["Viper"] = 15;
     CharNameToIndex["Yoru"] = 16;
+    //lowercase
+    CharNameToIndex["astra"] = 0;
+    CharNameToIndex["breach"] = 1;
+    CharNameToIndex["brimstone"] = 2;
+    CharNameToIndex["chamber"] = 3;
+    CharNameToIndex["cypher"] = 4;
+    CharNameToIndex["jett"] = 5;
+    CharNameToIndex["kayo"] = 6;
+    CharNameToIndex["killjoy"] = 7;
+    CharNameToIndex["omen"] = 8;
+    CharNameToIndex["phoenix"] = 9;
+    CharNameToIndex["raze"] = 10;
+    CharNameToIndex["reyna"] = 11;
+    CharNameToIndex["sage"] = 12;
+    CharNameToIndex["skye"] = 13;
+    CharNameToIndex["sova"] = 14;
+    CharNameToIndex["viper"] = 15;
+    CharNameToIndex["yoru"] = 16;
 }
 void InitializeMapToIndex() {
     MapNameToIndex["Ascent"] = 0;
@@ -94,8 +114,12 @@ void GetScoreboardData(string& filepath)
         rows.push_back(row);
     }
 
+    bool isPicked[17];
     for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
         if (counter == 10 || counter == 0) { // we've reached the last player in the first game
+            for(int j = 0; j < 17; j++) {
+                isPicked[j] = false;
+            }
             counter = 0; // reset the counter
             _gameID = rows[i][0]; // get the game ID
             //cout << "GAME ID: " << _gameID << endl;
@@ -117,7 +141,11 @@ void GetScoreboardData(string& filepath)
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].kills += stoi(rows[i][6]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].deaths += stoi(rows[i][7]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].assists += stoi(rows[i][8]);
-        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked += stoi(rows[i][8]);
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked++;
+        if (!(isPicked[CharNameToIndex[rows[i][4]]])) {
+            arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesPicked++;
+            isPicked[CharNameToIndex[rows[i][4]]] = true;
+        }
         if(team1Won && counter < 6) {
             arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
         } else {
@@ -201,6 +229,7 @@ void CreateCalculatedMap() {
             //cout<<arr[11][2].kills <<" " <<CharNameToIndex["reyna"] <<endl;
             //cout<<"Win Rate = " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numGamesWon <<" NumTimesPicked " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numTimesPicked;
 
+            cout << "Times picked: "  << arr[j][i].numTimesPicked << endl;
             if(arr[j][i].numTimesPicked == 0) {
                 win_rate = 0;
                 pick_rate = 0;
@@ -218,10 +247,43 @@ void CreateCalculatedMap() {
     }
     for(int i = 0; i < 7; i++) {
         cout<<"\n\n\nMap: " <<i <<endl;
-        for(const auto& it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++
-            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
+        for(auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end(); it++) {
+            cout<<"Character: " <<get<0>(it->second) <<" Win Rate: "<<" " <<it->first <<" Pick Rate: " <<get<1>(it->second) <<" ACS: " <<get<2>(it->second) <<" KDA: " <<get<3>(it->second) <<endl;
         }
     }
+}
+void CreateCalculatedHeap() {
+    cout << "ENTER Heap Calculator"<< endl;
+    vector<priority_queue<tuple<float, string, float, float, float>>> heapOfHeaps; // create a vector of heapOfHeaps
+    // each heap contains 17 agents. each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
+    // the index of each heap is the MapName: Bind, Breeze, Fracture, etc.
+
+    priority_queue<tuple<float, string, float, float, float>> pq; // winrate, AgentName pickrate, acs, kda
+
+    string currentAgentOnMap;
+    float calc_KDA, calc_ACS, win_Rate,pick_Rate;
+    tuple<float, string, float, float, float> agentData;
+
+    for (int i = 0; i < 7; i++) { // loop through map
+        for (int j = 0; j < 17; j++) { //loop through array
+            currentAgentOnMap = arr[j][i].agentName; // get the current agent name
+            cout << "Agent: " << currentAgentOnMap << endl;
+            win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
+            cout << "WinRate:  " << win_Rate << endl;
+            calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
+            cout << "ACS: " << calc_ACS << endl;
+            calc_KDA = arr[j][i].KDACalculator();
+            cout << "KDA: " << calc_KDA << endl;
+            pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
+            cout << "PickRate: " << pick_Rate << endl;
+
+            tuple<float, string, float, float, float> _tuple = make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA); // make tuple with agent data
+            agentData = _tuple;
+            pq.push(agentData);
+            heapOfHeaps.push_back(pq);// store in the pq
+        }
+    }
+
 }
 void PrintTable()
 {
@@ -253,7 +315,8 @@ int main() {
             CreateCalculatedMap();
             break;
         case 2:
-            cout << "do heap" << endl;
+            CreateCalculatedHeap();
+
         default:
             cout << "default" << endl;
     }
