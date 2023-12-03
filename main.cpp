@@ -6,11 +6,13 @@
 #include <map>
 #include "CharacterStats.h"
 using namespace std;
+
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
 static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
 static map<string, int> MapNameToIndex; //does the same for map name
 static int GamesOnEachMap[7];
 map<int, pair<string, bool>> GamesInfo;
+vector<map<float, tuple<string, float, float, float>>> CalculatedMapData(7);
 
 void InitializeCharToIndex() {
     CharNameToIndex["Astra"] = 0;
@@ -76,21 +78,38 @@ void GetScoreboardData(string& filepath)
 
     string agentName;
     string _gameID, _kills, _deaths, _assists, _acs;
-    for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
 
+    while (getline(inFile, lineFromFile))
+    {
+        row.clear();
+
+        // Create a stream from the line of data from the file
+        istringstream stream(lineFromFile);
+
+        while (getline(stream, word, ',')) {
+            //cout<<"Word: " <<word <<endl;
+            row.push_back(word);
+        }
+
+        rows.push_back(row);
+    }
+
+    for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
         if (counter == 10 || counter == 0) { // we've reached the last player in the first game
             counter = 0; // reset the counter
             _gameID = rows[i][0]; // get the game ID
-            cout << "GAME ID: " << _gameID << endl;
+            //cout << "GAME ID: " << _gameID << endl;
             currentMapName = GamesInfo[stoi(_gameID)].first;
-            cout << "CURRENT MAP: " << currentMapName << endl;
+            //cout << "CURRENT MAP: " << currentMapName << endl;
             team1Won = GamesInfo[stoi(_gameID)].second;
         }
 
-        cout << rows[i][4] << endl; // Agent Name
-        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = agentName;
+        //cout << rows[i][4] << endl; // Agent Name
+        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = rows[i][4];
 
         counter++;
+
+
         //cout << "GameID: " << rows[i][0] << endl;
         //cout << "Team Name: " << rows[i][3] << endl;
         //cout << "Agent Name: " << rows[counter][4] << endl;*/
@@ -167,6 +186,50 @@ void GetData(string& filepath)
 
     inFile.close();
 }
+void CreateCalculatedMap() {
+    //map<float, tuple<string, float, float, float>> CalculateMap;
+    float acs = 1;
+    float kda = 1;
+    float win_rate = 1;
+    float pick_rate = 1;
+
+
+    for (int i = 0; i < 7; i++) {
+        cout<<"\nNow Calculating Map: " <<i <<endl;
+        for (int j = 0; j < 17; j++) {
+            cout<<"row " <<j <<" column " <<i <<endl;
+            //cout<<arr[11][2].kills <<" " <<CharNameToIndex["reyna"] <<endl;
+            //cout<<"Win Rate = " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numGamesWon <<" NumTimesPicked " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numTimesPicked;
+
+            if(arr[j][i].numTimesPicked == 0) {
+                win_rate = 0;
+                pick_rate = 0;
+                acs = 0;
+                kda = 0;
+            } else {
+                win_rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
+                pick_rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
+                acs = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
+                kda = arr[j][i].KDACalculator();
+            }
+            cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
+            CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
+        }
+    }
+    for(int i = 0; i < 7; i++) {
+        cout<<"\n\n\nMap: " <<i <<endl;
+        for(const auto& it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++
+            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
+        }
+    }
+}
+void PrintTable()
+{
+    using std::setw;
+    std::cout << std::left;
+    std::cout <<
+              setw(7) << "[Agent Name]" << setw(6) << "[ACS]" << setw(9) << "[Kills]" << "[Deaths]" << "[Assists]" << endl;
+}
 
 int main() {
     InitializeCharToIndex();
@@ -175,13 +238,34 @@ int main() {
     string games = "Games.csv";
     GetData(games);
     GetScoreboardData(gameScoreboard);
-    //GetData(gameScoreboard);
 
-    // menu options
-    cout << "\nWelcome to our Professional Valorant Match Agent Statistics program!" << endl;
+    // Opening Menu
+    int dataStructure, option;
+    string mapName;
+    cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
     cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
     cout << "Pick a data structure to load the stats into." << endl;
     cout << "1) Map" << endl << "2) Max Heap" << endl;
+    cin >> dataStructure;
+
+    switch(dataStructure){
+        case 1:
+            CreateCalculatedMap();
+            break;
+        case 2:
+            cout << "do heap" << endl;
+        default:
+            cout << "default" << endl;
+    }
+
+    cout << "\nChoose a map and see which agents are performing the best on it { Breeze, Bind, Haven, Icebox, Ascent, Split, Fracture }: " << endl;
+    cin >> mapName;
+
+    // Display the table of character stats and the elapsed time just below it
+
+    cout << "\n----------Options Menu----------" << endl << "1) Choose a new map" << endl << "2) Exit the program" << endl;\
+    cin >> option;
+
 
     // input parsing
     return 0;

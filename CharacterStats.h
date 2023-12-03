@@ -5,7 +5,6 @@ using namespace std;
 //"picked" vector add each name
 //every 10 columns of scoreboard, numGames++ and clear picked
 
-
 class CharacterStats {
 public:
     int acs;
@@ -28,7 +27,7 @@ public:
         agentName = "";
     }
     float KDACalculator() {
-        float kda = (kills + assists) / deaths;
+        float kda = ((float) (kills + assists)) / ((float) deaths);
         return kda;
     }
 
