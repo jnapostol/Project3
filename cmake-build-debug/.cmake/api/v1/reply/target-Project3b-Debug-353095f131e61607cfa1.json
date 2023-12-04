@@ -99,7 +99,9 @@
 			"sourceIndexes" : 
 			[
 				1,
-				3
+				3,
+				4,
+				5
 			]
 		}
 	],
@@ -125,6 +127,16 @@
 		{
 			"backtrace" : 1,
 			"path" : "CharacterStats.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "CustomMap.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Iterator.h",
 			"sourceGroupIndex" : 1
 		}
 	],

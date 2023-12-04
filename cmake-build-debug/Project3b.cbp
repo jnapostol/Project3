@@ -88,6 +88,12 @@
 		<Unit filename="C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CharacterStats.h">
 			<Option target="Project3b"/>
 		</Unit>
+		<Unit filename="C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CustomMap.h">
+			<Option target="Project3b"/>
+		</Unit>
+		<Unit filename="C:/Users/vnica/OneDrive/Documents/GitHub/Project3/Iterator.h">
+			<Option target="Project3b"/>
+		</Unit>
 		<Unit filename="C:/Users/vnica/OneDrive/Documents/GitHub/Project3/MaxHeap.h">
 			<Option target="Project3b"/>
 		</Unit>

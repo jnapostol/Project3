@@ -5,10 +5,10 @@
 #include <fstream>		// Access to of-, if-, fstream
 #include <vector>
 #include <tuple>
-#include <bits/stdc++.h>
 #include "CharacterStats.h"
 #include "MaxHeap.h"
-
+#include "CustomMap.h"
+#include "Iterator.h"
 
 using namespace std;
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
@@ -17,25 +17,9 @@ static map<string, int> MapNameToIndex; //does the same for map name
 static int GamesOnEachMap[7];
 map<int, pair<string, bool>> GamesInfo;
 vector<map<float, tuple<string, float, float, float>>> CalculatedMapData(7);
+vector<CustomMap<float, tuple<string, float, float, float>>> CalculatedCustomMapData(7);
 
 void InitializeCharToIndex() {
-    CharNameToIndex["Astra"] = 0;
-    CharNameToIndex["Breach"] = 1;
-    CharNameToIndex["Brimstone"] = 2;
-    CharNameToIndex["Chamber"] = 3;
-    CharNameToIndex["Cypher"] = 4;
-    CharNameToIndex["Jett"] = 5;
-    CharNameToIndex["Kayo"] = 6;
-    CharNameToIndex["Killjoy"] = 7;
-    CharNameToIndex["Omen"] = 8;
-    CharNameToIndex["Phoenix"] = 9;
-    CharNameToIndex["Raze"] = 10;
-    CharNameToIndex["Reyna"] = 11;
-    CharNameToIndex["Sage"] = 12;
-    CharNameToIndex["Skye"] = 13;
-    CharNameToIndex["Sova"] = 14;
-    CharNameToIndex["Viper"] = 15;
-    CharNameToIndex["Yoru"] = 16;
     //lowercase
     CharNameToIndex["astra"] = 0;
     CharNameToIndex["breach"] = 1;
@@ -55,6 +39,66 @@ void InitializeCharToIndex() {
     CharNameToIndex["viper"] = 15;
     CharNameToIndex["yoru"] = 16;
 }
+string IndexToChar(int index)
+{
+    string charName = "";
+    switch(index){
+        case 0:
+            charName = "astra";
+            break;
+        case 1:
+            charName = "breach";
+            break;
+        case 2:
+            charName = "brimstrone";
+            break;
+        case 3:
+            charName = "chamber";
+            break;
+        case 4:
+            charName = "cypher";
+            break;
+        case 5:
+            charName = "jett";
+            break;
+        case 6:
+            charName = "kayo";
+            break;
+        case 7:
+            charName = "killjoy";
+            break;
+        case 8:
+            charName = "omen";
+            break;
+        case 9:
+            charName = "phoenix";
+            break;
+        case 10:
+            charName = "raze";
+            break;
+        case 11:
+            charName = "reyna";
+            break;
+        case 12:
+            charName = "sage";
+            break;
+        case 13:
+            charName = "skye";
+            break;
+        case 14:
+            charName = "sova";
+            break;
+        case 15:
+            charName = "viper";
+            break;
+        case 16:
+            charName = "yoru";
+            break;
+        default:
+            cout << "Invalid index!" << endl;
+    }
+    return charName;
+}
 void InitializeMapToIndex() {
     MapNameToIndex["Ascent"] = 0;
     MapNameToIndex["Bind"] = 1;
@@ -63,14 +107,6 @@ void InitializeMapToIndex() {
     MapNameToIndex["Haven"] = 4;
     MapNameToIndex["Icebox"] = 5;
     MapNameToIndex["Split"] = 6;
-    //lowercase
-    MapNameToIndex["ascent"] = 0;
-    MapNameToIndex["bind"] = 1;
-    MapNameToIndex["breeze"] = 2;
-    MapNameToIndex["fracture"] = 3;
-    MapNameToIndex["haven"] = 4;
-    MapNameToIndex["icebox"] = 5;
-    MapNameToIndex["split"] = 6;
 }
 void GetScoreboardData(string& filepath)
 {
@@ -100,14 +136,24 @@ void GetScoreboardData(string& filepath)
 
         while (getline(stream, word, ',')) {
             row.push_back(word);
+            //cout << word << " ";
         }
-
         rows.push_back(row);
+        //cout << endl;
     }
 
     string agentName;
     string _gameID, _kills, _deaths, _assists, _acs;
     bool isPicked[17];
+
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = 0; j < 17; j++)
+        {
+            arr[j][i].agentName = IndexToChar(j);
+        }
+    }
+
     for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
 
         if (counter == 10 || counter == 0) { // we've reached the last player in the first game
@@ -121,12 +167,11 @@ void GetScoreboardData(string& filepath)
             //cout << "CURRENT MAP: " << currentMapName << endl;
             team1Won = GamesInfo[stoi(_gameID)].second;
         }
-        arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].agentName = rows[i][4];
-
         counter++;
         //cout << "GameID: " << rows[i][0] << endl;
         //cout << "Team Name: " << rows[i][3] << endl;
         //cout << "Agent Name: " << rows[counter][4] << endl;*/
+
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].acs += stoi(rows[i][5]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].kills += stoi(rows[i][6]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].deaths += stoi(rows[i][7]);
@@ -276,17 +321,28 @@ void CreateCalculatedMap() {
                 pick_rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
                 acs = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
                 kda = arr[j][i].KDACalculator();
+                CalculatedCustomMapData[i].Insert(win_rate, make_tuple(arr[j][i].agentName, pick_rate, acs, kda));
             }
             cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
-            CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
+            //CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
             cout<<"inserted at " <<i <<endl;
         }
     }
-    for(int i = 0; i < 7; i++) {
+    /*for(int i = 0; i < 7; i++) {
         cout<<"\n\n\nMap: " <<i <<endl;
         for(const auto it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++ //const auto it : CalculatedMapData[i]
             cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
         }
+    }*/
+
+    for(int i = 0; i < 7; i++) {
+        cout<<"\n\n\nMap: " <<i <<endl;
+        for (Iterator<float, tuple<string, float, float, float>> it(CalculatedCustomMapData[i]); it != CalculatedCustomMapData[i].End(); it++) {
+            cout<<it.first <<" " <<get<0>(it.second) <<" " <<get<1>(it.second) <<" " <<get<2>(it.second) <<" " <<get<3>(it.second) <<endl;
+        }
+        /*for(const auto it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++ //const auto it : CalculatedMapData[i]
+            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
+        }*/
     }
 }
 void CreateCalculatedHeap() {
@@ -310,11 +366,12 @@ void CreateCalculatedHeap() {
             calc_KDA = arr[j][i].KDACalculator();
             pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
 
-            cout << "Agent: " << currentAgentOnMap << " WinRate:  " << win_Rate << " ACS: " << calc_ACS << " KDA: " << calc_KDA << " PickRate: " << pick_Rate << endl;
+            //cout << "Agent: " << arr[j][i].agentName << " WinRate:  " << win_Rate << " ACS: " << calc_ACS << " KDA: " << calc_KDA << " PickRate: " << pick_Rate << endl;
+            //2cout<<"Agent name at: " <<i <<" " <<j <<" " <<arr[j][i].agentName <<endl;
 
             // tuple<float, string, float, float, float> _tuple = make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA); // make tuple with agent data
             // agentData = _tuple;
-            cout << "INSERTING DATA INTO HEAP" << endl;
+            //cout << "INSERTING DATA INTO HEAP" << endl;
 
             heapObject.Insert(make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA));
 
@@ -325,11 +382,9 @@ void CreateCalculatedHeap() {
 
     // MaxHeap obj;
     cout << "EXTRACTING THE MAX" << endl;
-    for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
-        cout << "Max of map " << k << " " <<  endl;
-        heapOfHeaps[k].extractMax();
-
-    }
+    /*for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
+        cout << "Max of map " << k << " " <<  get<0>(heapOfHeaps[k].extractMax()) << " " << get<1>(heapOfHeaps[k].extractMax())<<endl;
+    }*/
 
 }
 

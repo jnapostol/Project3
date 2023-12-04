@@ -304,4 +304,6 @@ CMakeFiles/Project3b.dir/main.cpp.obj: \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_set.h \
  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/shared_mutex \
  C:\Users\vnica\OneDrive\Documents\GitHub\Project3\CharacterStats.h \
- C:\Users\vnica\OneDrive\Documents\GitHub\Project3\MaxHeap.h
+ C:\Users\vnica\OneDrive\Documents\GitHub\Project3\MaxHeap.h \
+ C:\Users\vnica\OneDrive\Documents\GitHub\Project3\CustomMap.h \
+ C:\Users\vnica\OneDrive\Documents\GitHub\Project3\Iterator.h

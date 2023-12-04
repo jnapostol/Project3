@@ -34,7 +34,7 @@ MaxHeap::MaxHeap(int cap) {
 }
 
 void MaxHeap::Insert(tuple<float, string, float, float, float> data) { // insert 17 agents into the heap
-    cout << "INSERTED" << endl;
+    //cout << "INSERTED" << endl;
     heapSize++;
 
     int i = heapSize - 1;
