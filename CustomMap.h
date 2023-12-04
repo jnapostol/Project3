@@ -15,7 +15,6 @@ template <typename K, typename E> class CustomMap {
 
     int GetElementIndexOfKey(K key) {
         for (int i = 0; i < size; i++) {
-            //cout<<"searching for key: " <<key <<endl;
             if(keyContainer[i] == key) {
                 return i;
             }
@@ -36,17 +35,12 @@ public:
     K operator/(int index) {
         return sortedKeys.at(index);
     }
-    void Insert(K key, E element) {//does not prevent duplicates 
+    void Insert(K key, E element) {//does not prevent duplicates
         sortedKeys.push_back(key);
         sort(sortedKeys.begin(), sortedKeys.end(), greater<K>());
         keyContainer.push_back(key);
         elementContainer.push_back(element);
         size++;
-    }
-    void Print() {
-        for(int i = 0; i < size; i++) {
-            cout<<sortedKeys.at(i) <<" " <<get<0>(elementContainer[GetElementIndexOfKey(sortedKeys.at(i))]) <<endl;
-        }
     }
     void Clear() {
         size = 0;

@@ -1,0 +1,101 @@
+﻿GameID,MatchID,Map,Team1ID,Team2ID,Team1,Team2,Winner,Team1_TotalRounds,Team2_TotalRounds,Team1_SideFirstHalf,Team2_SideFirstHalf,Team1_RoundsFirstHalf,Team1_RoundsSecondtHalf,Team1_RoundsOT,Team2_RoundsFirstHalf,Team2_RoundsSecondtHalf,Team2_RoundsOT,Team1_PistolWon,Team1_Eco,Team1_EcoWon,Team1_SemiEco,Team1_SemiEcoWon,Team1_SemiBuy,Team1_SemiBuyWon,Team1_FullBuy,Team1_FullBuyWon,Team2_PistolWon,Team2_Eco,Team2_EcoWon,Team2_SemiEco,Team2_SemiEcoWon,Team2_SemiBuy,Team2_SemiBuyWon,Team2_FullBuy,Team2_FullBuyWon
+60894,62393,Breeze,6903,6020,Booster Seat Gaming,Pho Real,Booster Seat Gaming,13,7,defend,attack,7,6,0,5,2,0,2,2,2,0,0,5,3,13,8,0,4,0,2,0,4,1,10,6
+60895,62393,Bind,6903,6020,Booster Seat Gaming,Pho Real,Pho Real,2,13,defend,attack,2,0,0,10,3,0,0,3,0,3,0,5,1,4,1,2,2,2,0,0,4,3,9,8
+60896,62393,Haven,6903,6020,Booster Seat Gaming,Pho Real,Booster Seat Gaming,13,8,attack,defend,8,5,0,4,4,0,1,2,1,2,1,5,2,12,9,1,2,1,2,0,6,2,11,5
+60924,62403,Icebox,7046,7047,Bjor's Kittens,Mugiwara,Bjor's Kittens,13,6,defend,attack,7,6,0,5,1,0,2,2,2,2,0,4,3,11,8,0,4,0,1,0,2,1,12,5
+60925,62403,Haven,7046,7047,Bjor's Kittens,Mugiwara,Bjor's Kittens,13,9,defend,attack,9,4,0,3,6,0,1,4,2,2,0,3,0,13,11,1,3,2,3,0,4,3,12,4
+60888,62391,Breeze,6461,6903,Akrew,Booster Seat Gaming,Booster Seat Gaming,7,13,defend,attack,5,2,0,7,6,0,0,3,0,2,1,2,0,13,6,2,2,2,0,0,5,3,13,8
+60889,62391,Bind,6461,6903,Akrew,Booster Seat Gaming,Akrew,13,7,attack,defend,6,7,0,6,1,0,1,3,1,0,0,4,3,13,9,1,3,1,3,0,5,2,9,4
+60890,62391,Haven,6461,6903,Akrew,Booster Seat Gaming,Akrew,13,4,defend,attack,9,4,0,3,1,0,2,2,2,1,1,4,3,10,7,0,2,0,3,0,7,2,5,2
+60903,62396,Breeze,6164,7043,Radiance,sameROFLMAO,Radiance,13,3,defend,attack,10,3,0,2,1,0,2,2,2,0,0,4,3,10,8,0,4,0,2,0,6,3,4,0
+60904,62396,Icebox,6164,7043,Radiance,sameROFLMAO,Radiance,13,2,defend,attack,10,3,0,2,0,0,2,2,2,0,0,5,4,8,7,0,4,0,2,0,3,0,6,2
+60918,62401,Ascent,7045,7046,Salt and Vinegar,Bjor's Kittens,Salt and Vinegar,13,7,attack,defend,10,3,0,2,5,0,1,3,1,2,1,3,3,12,8,1,3,1,3,0,6,4,8,2
+60919,62401,Haven,7045,7046,Salt and Vinegar,Bjor's Kittens,Salt and Vinegar,14,12,defend,attack,3,9,2,9,3,0,0,3,0,2,0,5,3,16,11,2,2,2,4,0,4,3,16,7
+60921,62402,Bind,7047,3545,Mugiwara,CLG Red,Mugiwara,13,8,defend,attack,7,6,0,5,3,0,1,3,1,1,0,3,1,14,11,1,3,1,1,0,5,2,12,5
+60922,62402,Icebox,7047,3545,Mugiwara,CLG Red,Mugiwara,13,8,defend,attack,6,7,0,6,2,0,2,3,2,1,0,5,2,12,9,0,4,1,1,0,1,0,15,7
+60879,62355,Haven,4733,4680,True Rippers,T69,True Rippers,13,7,defend,attack,5,8,0,7,0,0,1,3,1,1,1,4,2,12,9,1,3,1,3,0,6,3,8,3
+60880,62355,Ascent,4733,4680,True Rippers,T69,True Rippers,13,11,attack,defend,5,8,0,7,4,0,1,3,1,1,0,9,6,11,6,1,3,1,0,0,9,4,12,6
+60882,62389,Ascent,6461,7042,Akrew,Squishy and Friends,Akrew,13,1,defend,attack,11,2,0,1,0,0,2,2,2,0,0,3,3,9,8,0,3,0,2,0,4,1,5,0
+60883,62389,Bind,6461,7042,Akrew,Squishy and Friends,Akrew,13,1,attack,defend,11,2,0,1,0,0,2,2,2,0,0,3,3,9,8,0,3,0,3,0,4,1,4,0
+60885,62390,Icebox,6903,6020,Booster Seat Gaming,Pho Real,Booster Seat Gaming,13,2,attack,defend,10,3,0,2,0,0,2,2,2,0,0,3,2,10,9,0,4,0,1,0,5,1,5,1
+60886,62390,Haven,6903,6020,Booster Seat Gaming,Pho Real,Booster Seat Gaming,13,3,attack,defend,9,4,0,3,0,0,1,2,1,0,0,5,4,9,8,1,4,1,1,0,6,0,5,2
+60897,62394,Breeze,6164,7044,Radiance,Brolympics eSports,Radiance,13,5,attack,defend,10,3,0,2,3,0,0,3,0,1,1,4,3,10,9,2,2,2,3,0,6,2,7,1
+60898,62394,Ascent,6164,7044,Radiance,Brolympics eSports,Radiance,13,3,defend,attack,9,4,0,3,0,0,2,2,2,0,0,5,5,9,6,0,4,0,3,0,3,1,6,2
+60900,62395,Icebox,7043,5482,sameROFLMAO,Kowareta,Kowareta,5,13,attack,defend,4,1,0,8,5,0,0,4,0,1,0,5,2,8,3,2,2,2,1,0,5,4,10,7
+60901,62395,Breeze,7043,5482,sameROFLMAO,Kowareta,sameROFLMAO,13,4,attack,defend,8,5,0,4,0,0,2,2,2,0,0,4,3,11,8,0,4,0,1,0,4,1,8,3
+60902,62395,Ascent,7043,5482,sameROFLMAO,Kowareta,sameROFLMAO,13,6,defend,attack,7,6,0,5,1,0,1,3,1,1,0,2,1,13,11,1,3,1,3,0,6,3,7,2
+60912,62399,Icebox,7045,7047,Salt and Vinegar,Mugiwara,Salt and Vinegar,13,11,defend,attack,9,4,0,3,8,0,1,2,1,2,1,6,4,14,7,1,2,1,3,0,4,2,15,8
+60913,62399,Split,7045,7047,Salt and Vinegar,Mugiwara,Salt and Vinegar,13,5,defend,attack,7,6,0,5,0,0,1,3,1,0,0,3,3,12,9,1,3,1,2,0,5,1,8,3
+60915,62400,Haven,7046,3545,Bjor's Kittens,CLG Red,Bjor's Kittens,13,3,defend,attack,10,3,0,2,1,0,2,2,2,0,0,4,3,10,8,0,4,0,2,0,5,2,5,1
+60916,62400,Icebox,7046,3545,Bjor's Kittens,CLG Red,Bjor's Kittens,13,2,attack,defend,10,3,0,2,0,0,2,2,2,0,0,3,3,10,8,0,4,0,3,0,1,0,7,2
+60862,62173,Icebox,6384,4807,Clarity Esports,Team Arrow,Clarity Esports,13,3,attack,defend,9,4,0,3,0,0,1,2,1,0,0,5,5,9,7,1,3,1,2,0,5,0,6,2
+60863,62173,Haven,6384,4807,Clarity Esports,Team Arrow,Clarity Esports,13,5,attack,defend,8,5,0,4,1,0,0,3,0,1,1,2,2,12,10,2,2,2,3,0,8,2,5,1
+60876,62354,Haven,4829,5997,Team Valor,FS Esports ,Team Valor,13,8,attack,defend,8,5,0,4,4,0,1,3,1,1,0,2,2,15,10,1,3,1,1,0,5,4,12,3
+60877,62354,Icebox,4829,5997,Team Valor,FS Esports ,FS Esports ,11,13,defend,attack,7,4,0,5,8,0,1,3,1,0,0,7,4,14,6,1,3,1,2,0,7,4,12,8
+60878,62354,Split,4829,5997,Team Valor,FS Esports ,Team Valor,13,11,defend,attack,6,7,0,6,5,0,1,3,1,0,0,5,4,16,8,1,3,1,2,0,9,5,10,5
+60781,62072,Bind,466,1919,BOOM Esports,Kingsmen,Kingsmen,10,13,defend,attack,5,5,0,7,6,0,1,3,1,2,1,5,2,13,6,1,3,1,1,0,5,2,14,10
+60782,62072,Split,466,1919,BOOM Esports,Kingsmen,BOOM Esports,13,8,attack,defend,7,6,0,5,3,0,1,3,1,0,0,3,1,15,11,1,3,1,2,0,4,1,12,6
+60859,62172,Breeze,4809,6477,Team Exploit,Fear Legends,Team Exploit,13,8,defend,attack,7,6,0,5,3,0,1,3,1,2,1,2,1,14,10,1,3,1,2,0,4,2,12,5
+60860,62172,Fracture,4809,6477,Team Exploit,Fear Legends,Team Exploit,13,10,defend,attack,8,5,0,4,6,0,2,2,2,2,0,5,3,14,8,0,4,0,2,0,2,0,15,10
+60779,62071,Ascent,6799,6982,Goodfellas Gaming,Nine Esport,Goodfellas Gaming,13,6,defend,attack,7,6,0,5,1,0,2,2,2,1,0,7,5,9,6,0,4,0,2,0,3,1,10,5
+60780,62071,Haven,6799,6982,Goodfellas Gaming,Nine Esport,Goodfellas Gaming,13,2,attack,defend,10,3,0,2,0,0,2,2,2,0,0,4,4,9,7,0,3,0,3,0,4,0,5,2
+60807,62085,Haven,4150,623,South Built Esports,Sharper Esport,Sharper Esport,6,13,attack,defend,4,2,0,8,5,0,0,4,0,1,0,3,1,11,5,2,2,2,0,0,6,4,11,7
+60808,62085,Split,4150,623,South Built Esports,Sharper Esport,South Built Esports,13,5,attack,defend,7,6,0,5,0,0,2,2,2,2,1,5,4,9,6,0,4,1,2,1,3,0,9,3
+60801,62082,Bind,6389,6844,Bren Esports,shiba n the homies,shiba n the homies,9,13,attack,defend,5,4,0,7,6,0,1,3,1,1,0,6,3,12,5,1,4,1,0,0,4,2,14,10
+60802,62082,Haven,6389,6844,Bren Esports,shiba n the homies,Bren Esports,13,11,defend,attack,9,4,0,3,8,0,0,4,0,2,0,3,2,15,11,2,2,2,3,0,4,2,15,7
+60789,62076,Ascent,4325,6807,CERBERUS Esports,W Key,CERBERUS Esports,13,2,defend,attack,10,3,0,2,0,0,1,3,2,0,0,2,2,10,9,1,3,1,2,0,5,1,5,0
+60790,62076,Bind,4325,6807,CERBERUS Esports,W Key,CERBERUS Esports,13,1,attack,defend,11,2,0,1,0,0,2,2,2,0,0,3,3,9,8,0,3,0,3,0,4,0,4,1
+60805,62084,Haven,4150,388,South Built Esports,DivisionX Gaming,DivisionX Gaming,8,13,defend,attack,7,1,0,5,8,0,1,3,1,3,1,3,1,12,5,1,3,1,2,0,3,1,13,11
+60806,62084,Bind,4150,388,South Built Esports,DivisionX Gaming,South Built Esports,13,9,defend,attack,7,6,0,5,4,0,0,4,0,0,0,2,2,16,11,2,3,2,1,0,8,3,10,4
+60775,62069,Icebox,466,6799,BOOM Esports,Goodfellas Gaming,BOOM Esports,13,4,defend,attack,11,2,0,1,3,0,1,3,1,0,0,2,2,12,10,1,3,1,3,0,3,1,8,2
+60776,62069,Breeze,466,6799,BOOM Esports,Goodfellas Gaming,BOOM Esports,13,5,attack,defend,9,4,0,3,2,0,0,4,0,0,0,1,1,13,12,2,2,2,4,0,7,2,5,1
+60687,61811,Breeze,642,6817,Luminosity,ex-FLICKBAITERS,Luminosity,13,1,defend,attack,11,2,0,1,0,0,2,2,2,0,0,3,3,9,8,0,3,0,3,0,3,0,5,1
+60688,61811,Icebox,642,6817,Luminosity,ex-FLICKBAITERS,ex-FLICKBAITERS,7,13,attack,defend,5,2,0,7,6,0,0,4,0,1,0,4,1,11,6,2,2,2,2,1,5,3,11,7
+60689,61811,Ascent,642,6817,Luminosity,ex-FLICKBAITERS,Luminosity,13,3,attack,defend,11,2,0,1,2,0,0,3,0,0,0,4,4,9,9,2,3,2,3,0,6,1,4,0
+60681,61809,Icebox,468,642,Renegades,Luminosity,Luminosity,5,13,defend,attack,3,2,0,9,4,0,1,3,1,3,2,4,1,8,1,1,3,1,0,0,3,3,12,9
+60682,61809,Haven,468,642,Renegades,Luminosity,Renegades,13,7,attack,defend,10,3,0,2,5,0,1,3,1,1,0,3,3,13,9,1,3,1,1,1,6,2,10,3
+60683,61809,Bind,468,642,Renegades,Luminosity,Luminosity,11,13,attack,defend,8,3,0,4,9,0,2,3,2,2,1,4,2,15,6,0,3,0,2,0,3,2,16,11
+60684,61810,Icebox,6817,6198,ex-FLICKBAITERS,Knights Academy,Knights Academy,12,14,defend,attack,5,7,0,7,5,2,1,3,1,2,0,5,2,16,9,1,3,1,2,0,2,1,19,12
+60685,61810,Ascent,6817,6198,ex-FLICKBAITERS,Knights Academy,ex-FLICKBAITERS,13,11,attack,defend,6,7,0,6,5,0,0,4,0,1,0,0,0,19,13,2,2,2,4,1,5,2,13,6
+60686,61810,Breeze,6817,6198,ex-FLICKBAITERS,Knights Academy,ex-FLICKBAITERS,13,9,attack,defend,4,9,0,8,1,0,2,2,2,1,0,7,3,12,8,0,3,0,4,1,2,1,13,7
+60669,61805,Breeze,6164,468,Radiance,Renegades,Renegades,12,14,attack,defend,6,6,0,6,6,2,0,4,0,2,1,5,3,15,8,2,3,2,0,0,7,4,16,8
+60670,61805,Fracture,6164,468,Radiance,Renegades,Radiance,15,13,defend,attack,8,4,3,4,8,1,2,2,2,3,0,8,4,15,9,0,4,0,1,0,3,1,20,12
+60671,61805,Icebox,6164,468,Radiance,Renegades,Renegades,4,13,attack,defend,3,1,0,9,4,0,0,2,0,3,0,7,2,5,2,2,2,2,0,0,4,3,11,8
+60672,61806,Ascent,1615,642,Knights,Luminosity,Knights,13,7,attack,defend,7,6,0,5,2,0,1,4,1,1,1,1,0,14,11,1,3,2,1,0,5,3,11,2
+60673,61806,Icebox,1615,642,Knights,Luminosity,Luminosity,10,13,defend,attack,5,5,0,7,6,0,1,3,1,1,0,8,5,11,4,1,2,1,3,0,4,1,14,11
+60674,61806,Bind,1615,642,Knights,Luminosity,Luminosity,4,13,defend,attack,3,1,0,9,4,0,1,3,1,3,0,6,2,5,1,1,3,2,0,0,2,1,12,10
+60675,61807,Split,6817,4455,ex-FLICKBAITERS,Third Impact,ex-FLICKBAITERS,13,9,defend,attack,7,6,0,5,4,0,0,4,2,3,1,4,2,11,8,2,3,2,3,0,5,1,11,6
+60676,61807,Breeze,6817,4455,ex-FLICKBAITERS,Third Impact,Third Impact,11,13,attack,defend,6,5,0,6,7,0,1,3,1,1,0,5,2,15,8,1,2,1,2,1,5,2,15,9
+60677,61807,Ascent,6817,4455,ex-FLICKBAITERS,Third Impact,ex-FLICKBAITERS,13,10,attack,defend,9,4,0,3,7,0,1,4,1,0,0,3,2,16,10,1,3,1,2,0,7,6,11,3
+58578,51964,Haven,1470,1471,NASR Esports,Team RA'AD,Team RA'AD,10,13,defend,attack,4,6,0,8,5,0,1,3,1,2,0,4,3,14,6,1,3,1,2,1,5,3,13,8
+58579,51964,Ascent,1470,1471,NASR Esports,Team RA'AD,NASR Esports,13,11,attack,defend,4,9,0,8,3,0,2,2,2,2,0,4,2,16,9,0,4,1,0,0,4,0,16,10
+58580,51964,Split,1470,1471,NASR Esports,Team RA'AD,NASR Esports,13,7,defend,attack,8,5,0,4,3,0,1,3,1,0,0,4,2,13,10,1,3,1,1,0,6,3,10,3
+58581,51964,Fracture,1470,1471,NASR Esports,Team RA'AD,NASR Esports,14,12,defend,attack,4,8,2,8,4,0,0,4,0,3,1,0,0,19,13,2,2,2,2,0,8,4,14,6
+60645,61797,Breeze,6164,6856,Radiance,Icarus,Radiance,13,4,defend,attack,10,3,0,2,2,0,2,3,2,0,0,4,3,10,8,0,2,0,2,0,6,2,7,2
+60646,61797,Split,6164,6856,Radiance,Icarus,Radiance,13,8,defend,attack,7,6,0,5,3,0,0,4,0,0,0,1,1,16,12,2,2,2,3,0,6,3,10,3
+60648,61798,Icebox,3337,468,Team Basilisk,Renegades,Team Basilisk,13,6,defend,attack,8,5,0,4,2,0,2,2,2,2,1,4,2,11,8,0,4,0,1,0,2,0,12,6
+60649,61798,Haven,3337,468,Team Basilisk,Renegades,Renegades,4,13,defend,attack,3,1,0,9,4,0,0,4,0,2,0,2,1,9,3,2,2,2,0,0,4,3,11,8
+60650,61798,Fracture,3337,468,Team Basilisk,Renegades,Renegades,7,13,attack,defend,6,1,0,6,7,0,0,4,0,2,0,2,1,12,6,2,2,2,3,0,5,3,10,8
+60651,61799,Ascent,1615,6045,Knights,Lenny Time,Knights,13,8,attack,defend,6,7,0,6,2,0,1,3,1,2,1,5,2,11,9,1,3,1,1,0,5,2,12,5
+60652,61799,Haven,1615,6045,Knights,Lenny Time,Knights,13,11,defend,attack,5,8,0,7,4,0,1,3,1,2,0,6,3,13,9,1,3,1,1,0,5,2,15,8
+60654,61800,Icebox,642,6020,Luminosity,Pho Real,Luminosity,13,2,defend,attack,11,2,0,1,1,0,1,3,2,0,0,2,2,10,9,1,3,1,2,0,4,0,6,1
+60655,61800,Breeze,642,6020,Luminosity,Pho Real,Luminosity,13,3,defend,attack,9,4,0,3,0,0,2,2,2,0,0,4,3,10,8,0,4,0,2,0,3,0,7,3
+60657,61801,Breeze,6817,6707,ex-FLICKBAITERS,Gifted,ex-FLICKBAITERS,13,6,attack,defend,8,5,0,4,2,0,1,2,1,2,1,5,4,10,7,1,3,1,4,2,6,2,6,1
+60658,61801,Haven,6817,6707,ex-FLICKBAITERS,Gifted,ex-FLICKBAITERS,13,3,attack,defend,9,4,0,3,0,0,1,3,1,0,0,3,3,10,9,1,3,1,3,0,5,1,5,1
+60666,61804,Haven,6198,6213,Knights Academy,Cloud9 Academy,Knights Academy,13,8,attack,defend,8,5,0,4,4,0,1,4,2,1,1,2,1,14,9,1,3,2,4,1,4,2,10,3
+60667,61804,Breeze,6198,6213,Knights Academy,Cloud9 Academy,Knights Academy,13,4,defend,attack,8,5,0,4,0,0,1,3,1,1,1,3,3,10,8,1,3,1,0,0,7,3,7,0
+60723,61936,Icebox,642,6707,Luminosity,Gifted,Luminosity,13,3,attack,defend,10,3,0,2,1,0,1,2,1,1,1,5,4,8,7,1,3,1,1,0,5,1,7,1
+60729,61942,Ascent,1615,6986,Knights,Ex-Dallas Vendetta,Knights,13,4,attack,defend,10,3,0,2,2,0,1,2,1,1,0,3,2,11,10,1,3,1,2,0,5,1,7,2
+60730,61943,Bind,6653,6213,GunsForHire,Cloud9 Academy,GunsForHire,13,11,attack,defend,3,10,0,9,2,0,1,3,1,3,1,3,1,15,10,1,3,1,2,0,4,3,15,7
+60733,61946,Bind,6859,468,Aspyre,Renegades,Aspyre,13,11,attack,defend,6,7,0,6,5,0,1,3,1,1,0,2,1,18,11,1,3,1,2,0,5,3,14,7
+60734,61947,Breeze,6817,6020,ex-FLICKBAITERS,Pho Real,ex-FLICKBAITERS,13,7,attack,defend,7,6,0,5,2,0,1,3,1,1,1,3,3,13,8,1,4,1,2,0,4,2,10,4
+60736,61949,Haven,6198,6934,Knights Academy,Minaweebs Money Crew,Knights Academy,13,10,attack,defend,5,8,0,7,3,0,0,4,0,0,0,7,6,12,7,2,2,2,2,0,8,2,11,6
+60709,61922,Bind,6164,6045,Radiance,Lenny Time,Radiance,13,3,defend,attack,9,4,0,3,0,0,2,2,2,1,0,4,3,9,8,0,4,0,1,0,4,0,7,3
+60710,61923,Ascent,3337,5444,Team Basilisk,Bait Academy,Team Basilisk,13,5,attack,defend,9,4,0,3,2,0,1,2,1,1,1,8,5,7,6,1,4,1,2,1,7,1,5,2
+60717,61930,Breeze,468,6879,Renegades,Zenigma Alpha,Renegades,13,2,defend,attack,10,3,0,2,0,0,2,2,2,0,0,4,3,9,8,0,2,0,3,0,6,1,4,1
+60718,61931,Ascent,6817,5038,ex-FLICKBAITERS,YFP Gaming,ex-FLICKBAITERS,13,2,defend,attack,10,3,0,2,0,0,2,2,2,0,0,4,3,9,8,0,4,0,2,0,3,1,6,1
+60720,61933,Icebox,6198,4455,Knights Academy,Third Impact,Knights Academy,13,11,defend,attack,4,9,0,8,3,0,1,3,1,2,0,5,2,14,10,1,3,1,2,0,3,2,16,8
+60699,61912,Ascent,6213,6679,Cloud9 Academy,Disciples ,Cloud9 Academy,13,7,defend,attack,11,2,0,1,6,0,1,4,1,1,0,4,3,11,9,1,2,1,2,0,7,3,9,3
+60702,61915,Breeze,6817,6858,ex-FLICKBAITERS,Trash Pandas,ex-FLICKBAITERS,13,1,attack,defend,12,1,0,0,1,0,1,2,1,1,1,2,2,9,9,1,3,1,3,0,3,0,5,0
+60704,61917,Haven,6198,6848,Knights Academy,Hugh Jass Construction,Knights Academy,13,0,defend,attack,12,1,0,0,0,0,2,2,2,0,0,2,2,9,9,0,3,0,2,0,3,0,5,0
+60592,61407,Breeze,6461,6817,Akrew,ex-FLICKBAITERS,Akrew,13,11,defend,attack,8,5,0,4,7,0,1,3,1,1,0,4,3,16,9,1,3,1,1,0,6,2,14,8

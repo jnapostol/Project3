@@ -5,23 +5,26 @@
 #include <fstream>		// Access to of-, if-, fstream
 #include <vector>
 #include <tuple>
+#include <chrono>       // Timer
+#include <bits/stdc++.h>        // Set precision for output
+
 #include "CharacterStats.h"
 #include "MaxHeap.h"
 #include "CustomMap.h"
 #include "Iterator.h"
 
-using namespace std;
+using namespace std::chrono;
 static CharacterStats arr[17][7]; //2D array where rows represents character/agent name and columns represents map name
-static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
-static map<string, int> MapNameToIndex; //does the same for map name
+static map<string, int> CharNameToIndex; // Turns our character name into an index to be used for arr
+static map<string, int> MapNameToIndex; // Does the same for map name
 static int GamesOnEachMap[7];
-vector<string> availableMaps;   // flags what user has already chosen
-map<int, pair<string, bool>> GamesInfo;
-vector<map<float, tuple<string, float, float, float>>> CalculatedMapData(7);
-vector<CustomMap<float, tuple<string, float, float, float>>> CalculatedCustomMapData(7);
 
-void InitializeCharToIndex() {
-    //lowercase
+vector<string> AvailableMaps; // Flags what user has already chosen
+map<int, pair<string, bool>> GamesInfo;
+vector<CustomMap<float, tuple<string, float, float, float>>> CalculatedCustomMapData(7);
+vector<MaxHeap> HeapOfHeaps; // Create a vector of heaps
+
+void InitializeCharToIndex() { // Initialize all agents with an index
     CharNameToIndex["astra"] = 0;
     CharNameToIndex["breach"] = 1;
     CharNameToIndex["brimstone"] = 2;
@@ -40,8 +43,16 @@ void InitializeCharToIndex() {
     CharNameToIndex["viper"] = 15;
     CharNameToIndex["yoru"] = 16;
 }
-string IndexToChar(int index)
-{
+void InitializeMapToIndex() { // Initialize valorant map names with an index
+    MapNameToIndex["Ascent"] = 0;
+    MapNameToIndex["Bind"] = 1;
+    MapNameToIndex["Breeze"] = 2;
+    MapNameToIndex["Fracture"] = 3;
+    MapNameToIndex["Haven"] = 4;
+    MapNameToIndex["Icebox"] = 5;
+    MapNameToIndex["Split"] = 6;
+}
+string IndexToChar(int index) { // veronica help lmao
     string charName = "";
     switch(index){
         case 0:
@@ -100,17 +111,35 @@ string IndexToChar(int index)
     }
     return charName;
 }
-void InitializeMapToIndex() {
-    MapNameToIndex["Ascent"] = 0;
-    MapNameToIndex["Bind"] = 1;
-    MapNameToIndex["Breeze"] = 2;
-    MapNameToIndex["Fracture"] = 3;
-    MapNameToIndex["Haven"] = 4;
-    MapNameToIndex["Icebox"] = 5;
-    MapNameToIndex["Split"] = 6;
+string IndexToMap(int index) {
+    string mapName = "";
+    switch(index){
+        case 0:
+            mapName = "Ascent";
+            break;
+        case 1:
+            mapName = "Bind";
+            break;
+        case 2:
+            mapName = "Breeze";
+            break;
+        case 3:
+            mapName = "Fracture";
+            break;
+        case 4:
+            mapName = "Haven";
+            break;
+        case 5:
+            mapName = "Icebox";
+            break;
+        case 6:
+            mapName = "Split";
+            break;
+    }
+    return mapName;
 }
-void GetScoreboardData(string& filepath)
-{
+
+void GetScoreboardData(string& filepath) { // Interpreting the data from Scoreboard_Data.csv file
     ifstream inFile(filepath);
 
     if(!inFile.is_open())
@@ -126,7 +155,8 @@ void GetScoreboardData(string& filepath)
 
     string currentMapName = "";
     bool team1Won = false;
-    int counter = 0;
+    int counter = 0; // Used to count 10 players at a time
+
     // Get all entries from the file, one line at a time
     while (getline(inFile, lineFromFile))
     {
@@ -137,108 +167,55 @@ void GetScoreboardData(string& filepath)
 
         while (getline(stream, word, ',')) {
             row.push_back(word);
-            //cout << word << " ";
         }
         rows.push_back(row);
-        //cout << endl;
     }
 
-    string agentName;
-    string _gameID, _kills, _deaths, _assists, _acs;
-    bool isPicked[17];
+    string agentName, _gameID, _kills, _deaths, _assists, _acs;
+    bool isPicked[17]; // Boolean that returns if an agent has already been picked in the Valorant map
 
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 7; i++) // In every Valorant map
     {
-        for (int j = 0; j < 17; j++)
+        for (int j = 0; j < 17; j++) // For every Valorant agent
         {
-            arr[j][i].agentName = IndexToChar(j);
+            arr[j][i].agentName = IndexToChar(j); // Get their index associated to their agent name
         }
     }
 
-    for (int i = 0; i < rows.size(); i++) { // loop through the size of the row
-
-        if (counter == 10 || counter == 0) { // we've reached the last player in the first game
-            for(int j = 0; j < 17; j++) {
+    for (int i = 0; i < rows.size(); i++) { // Loop through the rows in Scoreboard_Data
+        if (counter == 10 || counter == 0) { // When we've reached the last player in a game
+            for(int j = 0; j < 17; j++) { // Update the status of the agents to not be picked
                 isPicked[j] = false;
             }
-            counter = 0; // reset the counter
-            _gameID = rows[i][0]; // get the game ID
-            //cout << "GAME ID: " << _gameID << endl;
-            currentMapName = GamesInfo[stoi(_gameID)].first;
-            //cout << "CURRENT MAP: " << currentMapName << endl;
-            team1Won = GamesInfo[stoi(_gameID)].second;
+            counter = 0; // Reset the counter
+            _gameID = rows[i][0]; // Get the Game ID, once every game
+            currentMapName = GamesInfo[stoi(_gameID)].first; // Get the current map name, once every game
+            team1Won = GamesInfo[stoi(_gameID)].second; // Get if Team 1 has won, once every game
         }
         counter++;
-        //cout << "GameID: " << rows[i][0] << endl;
-        //cout << "Team Name: " << rows[i][3] << endl;
-        //cout << "Agent Name: " << rows[counter][4] << endl;*/
 
+        // Get the ACS, Kills, Deaths, Assists, and Number of Times picked for every agent and total up the sum in a map
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].acs += stoi(rows[i][5]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].kills += stoi(rows[i][6]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].deaths += stoi(rows[i][7]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].assists += stoi(rows[i][8]);
         arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numTimesPicked++;
+
         if (!(isPicked[CharNameToIndex[rows[i][4]]])) {
             arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesPicked++;
             isPicked[CharNameToIndex[rows[i][4]]] = true;
         }
-        if(team1Won && counter < 6) {
+        if(team1Won && counter < 6) { // When Team 1 has won, update the Number of Games Won for the first 5 agents
             arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
         } else {
-            if(counter >= 6) {
+            if(counter >= 6) { // Otherwise, update the Number of Games Won for the last 5 agents
                 arr[CharNameToIndex[rows[i][4]]][MapNameToIndex[currentMapName]].numGamesWon++;
             }
         }
-        //cout << "ACS: " << rows[i][5] << endl;
-        //cout << "Kills: " << rows[i][6] << endl;
-        //cout << "Deaths: " << rows[i][7] << endl;
-        //cout << "Assists: " << rows[i][8] << endl;
-        /*
-
-        getline(stream, _gameID, ',');
-        getline(stream, agentName, ',');
-        getline(stream, _gameID, ',');
-        getline(stream, _kills, ',');
-        getline(stream, _deaths, ',');
-        getline(stream, _assists, ',');
-        getline(stream, _acs, ',');
-
-        if (counter == 10) { // we've reached the last player in the first game
-            counter = 0; // reset the counter
-
-            GamesInfo[stoi(_gameID)].first = currentMapName; // store current map name from ziad's data
-            GamesInfo[stoi(_gameID)].second = teamWon;// store bool if team won from ziad's data
-
-        }
-        cout << "ARW" << endl;
-        counter++;
-        //BUG STOI issue
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].agentName = agentName;
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numTimesPicked++;
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].kills += stoi(_kills);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].deaths += stoi(_deaths);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].assists += stoi(_assists);
-        arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].acs += stoi(_acs);
-
-
-        cout << "pp" << endl;
-
-        if(teamWon && counter < 6) {
-                    cout << "poopoo" << endl;
-
-            arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
-        }
-        else {
-            if (counter >= 6) {
-                arr[CharNameToIndex[agentName]][MapNameToIndex[currentMapName]].numGamesWon++;
-            }
-        }*/
-
     }
     inFile.close();
 }
-void GetData(string& filepath)
-{
+void GetData(string& filepath) { // Interpret the data from the Games.csv file
     map<int, pair<string, bool>> MapStorage;
     vector<int> gameIDs;
 
@@ -262,12 +239,8 @@ void GetData(string& filepath)
         // Create a stream from the line of data from the file
         istringstream stream(lineFromFile);
 
-        //CharacterStats s;
-        string game_ID;
-        string random;
-        string map_name;
-        string team1_name;
-        string winner;
+        string game_ID, random, map_name, team1_name, winner;
+
         getline(stream, game_ID, ',');
         getline(stream, random, ',');
         getline(stream, map_name, ',');
@@ -277,132 +250,137 @@ void GetData(string& filepath)
         getline(stream, random, ',');
         getline(stream, winner, ',');
 
+        GamesOnEachMap[MapNameToIndex[map_name]]++; // Increment the number of games on each map using the map_name
 
-        //cout << game_ID <<" " <<map_name <<" " <<team1_name <<" " <<winner << endl;
-        GamesOnEachMap[MapNameToIndex[map_name]]++;
         bool Team1Win = false;
-        if (winner == team1_name) {
+        if (winner == team1_name) { // If the winner of the game is Team 1, return true
             Team1Win = true;
         }
+        // Store a pair of values: map name and bool if team 1 won, with key: Game ID
         GamesInfo[stoi(game_ID)] = make_pair(map_name, Team1Win);
     }
-
-    /*for (int i = 0; i < 7; i++) {
-        cout << GamesOnEachMap[i] <<endl;
-    }*/
-
-    /*for(auto it = GamesInfo.begin(); it != GamesInfo.end(); it++) {
-        cout<<it->first <<" " <<it->second.first <<" " <<it->second.second <<endl;
-    }*/
-
     inFile.close();
 }
-void CreateCalculatedMap() {
+
+void CreateCalculatedMap() { // Creates a custom map data structure for each map name
+    auto beg = high_resolution_clock::now(); // Timing the storage of the custom map data structure
+
+    // Initialize agent ACS, KDA, win-rate, and pick-rate to 1
     float acs = 1;
     float kda = 1;
     float win_rate = 1;
     float pick_rate = 1;
 
-    for (int i = 0; i < 7; i++) {
-        //cout<<"\nNow Calculating Map: " <<i <<endl;
-        for (int j = 0; j < 17; j++) {
-            //cout<<"row " <<j <<" column " <<i <<endl;
-            //cout<<"Times Picked: " <<arr[j][i].numTimesPicked <<endl;
-            if(arr[j][i].numTimesPicked == 0) {
+    for (int i = 0; i < 7; i++) { // Loop through the number Valorant maps
+        for (int j = 0; j < 17; j++) { // Loop through the number of Valorant agents
+
+            if(arr[j][i].numTimesPicked == 0) { // If the agent was picked 0 times
+                // Set the agent's data to 0
                 win_rate = 0;
                 pick_rate = 0;
                 acs = 0;
                 kda = 0;
-            } else {
+            }
+            else { // Otherwise, calculate the agent's data
                 win_rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
                 pick_rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
                 acs = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
                 kda = arr[j][i].KDACalculator();
                 CalculatedCustomMapData[i].Insert(win_rate, make_tuple(arr[j][i].agentName, pick_rate, acs, kda));
             }
-            //cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
-            //CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
-            //cout<<"inserted at " <<i <<endl;
         }
     }
-    for(int i = 0; i < 7; i++) {
+    /*for(int i = 0; i < 7; i++) { // VERONICA: how to print stuff
         cout<<"\n\n\nMap: " <<i <<endl;
         for (Iterator<float, tuple<string, float, float, float>> it(CalculatedCustomMapData[i]); it != CalculatedCustomMapData[i].End(); it++) {
             cout<<it.first <<" " <<get<0>(it.second) <<" " <<get<1>(it.second) <<" " <<get<2>(it.second) <<" " <<get<3>(it.second) <<endl;
         }
-    }
+    }*/
+
+    // Calculating and printing the elapsed time below
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - beg);
+    cout << "Elapsed Time to create CUSTOM MAP in microseconds: " << duration.count();
+
 }
-void CreateCalculatedHeap() {
-    //cout << "ENTER Heap Calculator"<< endl;
+void PrintCustomMap(string nameOfMap)
+{
 
-    vector<MaxHeap> heapOfHeaps; // create a vector of heaps
-    // each heap contains 17 agents. each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
+}
 
+void CreateCalculatedHeap() { // Creates a heap per Valorant map - consisting of 17 agents per heap
+    // Each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
+    auto beg = high_resolution_clock::now(); // Timing the storage of data
     string currentAgentOnMap;
     float calc_KDA, calc_ACS, win_Rate,pick_Rate;
 
-    // tuple<float, string, float, float, float> agentData;
-
-    for (int i = 0; i < 7; i++) { // loop through map
+    for (int i = 0; i < 7; i++) { // Loop through the number of Valorant maps
         MaxHeap heapObject(17);
-        for (int j = 0; j < 17; j++) { //loop through array
-            currentAgentOnMap = arr[j][i].agentName; // get the current agent name
-            win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
-            calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
-            calc_KDA = arr[j][i].KDACalculator();
-            pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]);
+        for (int j = 0; j < 17; j++) { // Loop through the number of Valorant agents
+            currentAgentOnMap = arr[j][i].agentName; // Get agent name
+            win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked); // Get win-rate
+            calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked); // Get ACS
+            calc_KDA = arr[j][i].KDACalculator(); // Get KDA ratio
+            pick_Rate = ((float) arr[j][i].numGamesPicked) / ((float)GamesOnEachMap[i]); // Get pick-rate
 
-            //cout << "Agent: " << arr[j][i].agentName << " WinRate:  " << win_Rate << " ACS: " << calc_ACS << " KDA: " << calc_KDA << " PickRate: " << pick_Rate << endl;
-            //2cout<<"Agent name at: " <<i <<" " <<j <<" " <<arr[j][i].agentName <<endl;
-
-            // tuple<float, string, float, float, float> _tuple = make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA); // make tuple with agent data
-            // agentData = _tuple;
-            //cout << "INSERTING DATA INTO HEAP" << endl;
-
+            // Create a tuple with the data above and insert it into the heap
             heapObject.Insert(make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA));
         }
-        //cout << "PUSHING HEAP INTO VECTOR" << endl;
-        heapOfHeaps.push_back(heapObject); // 7 maps each with 17 agents
+        HeapOfHeaps.push_back(heapObject); // Insert the heap into the vector
     }
-    // MaxHeap obj;
-    //cout << "EXTRACTING THE MAX" << endl;
-    for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
-        cout << "Max of map " << k << " " <<  get<0>(heapOfHeaps[k].extractMax()) << " " << get<1>(heapOfHeaps[k].extractMax())<<endl;
+
+    // Timing the storage of the algorithm below
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - beg);
+    cout << "Elapsed time to create MAX HEAP in microseconds: " << duration.count() << endl;
+}
+void PrintHeap(string nameOfMap)
+{
+    int index = MapNameToIndex[nameOfMap]; // Turn the nameOfMap from input into an index
+    tuple<float, string, float, float, float> max = HeapOfHeaps[index].extractMax();
+
+    cout << "\nHighest performing agent on " << IndexToMap(index) <<endl;
+    cout << "Agent Name: " << get<1>(max) << endl;
+    cout << "Win Rate: " << fixed << setprecision(2) << get<0>(max) << endl;
+    cout << "Pick Rate: " << fixed << setprecision(2)  << get<2>(max) << endl;
+    cout << "ACS (Average Combat Score): " << fixed << setprecision(2) << get<3>(max) << endl;
+    cout << "KDA (Kills-Deaths-Assists Calculation): " << fixed << setprecision(2) << get<4>(max) << endl;
+
+    cout << "\n" << setw(9) << "[Agent Name]" << setw(11) << "[Win Rate]" << setw(12) << "[Pick Rate]" << setw(6) << "[ACS]" << setw(12) << "[KDA]" << endl;
+    for (int i = 0; i < 16; i++)
+    {
+        max = HeapOfHeaps[index].extractMax();
+        cout << setw(9) << get<1>(max)
+                << setw(11) << fixed << setprecision(2) << get<0>(max)
+                << setw(11) << fixed << setprecision(2)  << get<2>(max)
+                << setw(11) << fixed << setprecision(2)  << get<3>(max)
+                << setw(11) << fixed << setprecision(2)  << get<4>(max) << endl;
     }
 }
-/*void PrintHeap(vector<MaxHeap>& heapsVector)
-{
-
-};
-void PrintTable()
-{
-    using std::setw;
-    std::cout << std::left;
-    std::cout <<
-              setw(7) << "[Agent Name]" << setw(6) << "[ACS]" << setw(9) << "[Kills]" << "[Deaths]" << "[Assists]" << endl;
-}*/
 
 int main() {
     InitializeCharToIndex();
     InitializeMapToIndex();
+
     string gameScoreboard = "Game_Scoreboard.csv";
     string games = "Games.csv";
-    GetData(games);
-    GetScoreboardData(gameScoreboard);
+
+    GetData(games); // Interpret the Games.csv file and get necessary data
+    GetScoreboardData(gameScoreboard); // Interpret the Game_Scoreboard.csv file and get necessary data
 
     // Initialize chosen maps
-    availableMaps.push_back("Ascent");
-    availableMaps.push_back("Bind");
-    availableMaps.push_back("Breeze");
-    availableMaps.push_back("Fracture");
-    availableMaps.push_back("Haven");
-    availableMaps.push_back("Icebox");
-    availableMaps.push_back("Split");
+    AvailableMaps.push_back("Ascent");
+    AvailableMaps.push_back("Bind");
+    AvailableMaps.push_back("Breeze");
+    AvailableMaps.push_back("Fracture");
+    AvailableMaps.push_back("Haven");
+    AvailableMaps.push_back("Icebox");
+    AvailableMaps.push_back("Split");
 
     int dataStructure, option;
     string mapName;
     bool quit = false;
-    while (!availableMaps.empty() && !quit)
+    while (!AvailableMaps.empty() && !quit)
     {
         // Opening Menu
         cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
@@ -428,38 +406,35 @@ int main() {
         {
             case 1:
                 cout << "\nChoose a map!" << endl << "Available maps: ";
-                for (int i = 0; i < availableMaps.size(); i++)
-                    cout << availableMaps[i] << "  |  ";
+                for (int i = 0; i < AvailableMaps.size(); i++)
+                    cout << AvailableMaps[i] << "  |  ";
                 cin >> mapName;
-                for (int i = 0; i < availableMaps.size(); i++)
+                for (int i = 0; i < AvailableMaps.size(); i++)
                 {
-                    if (mapName == availableMaps[i])
+                    if (mapName == AvailableMaps[i])
                     {
-                        availableMaps[i] = "[X]" + availableMaps[i];
+                        AvailableMaps[i] = "[X]" + AvailableMaps[i];
                     }
                     else
                     {
                         cout << "";
                     }
                 }
+
+                if (dataStructure == 1) {
+                    // print map ds
+                }
+                else if (dataStructure == 2) {
+                    PrintHeap(mapName);
+                }
+
                 break;
             case 2:
                 quit = true;
         }
-
-
         // Display the table of character stats and the elapsed time just below it
     }
-
-
 
     // input parsing
     return 0;
 }
-
-// two diff classes to store data/process it?
-
-// storing via map (hash?) & max heap
-
-
-

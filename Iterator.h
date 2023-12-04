@@ -15,14 +15,10 @@ public:
     }
     void operator++(int add) {
         index++;
-        //cout<<"Index: " <<index <<endl;
         if(index != object.Size()) {
             first = object/index;
-            //cout<<"first = " <<object/index <<endl;
             second = object[object/index];
-            //cout<<"second = " <<get<0>(object[object/index]) <<endl;
         }
-
     }
 
     void operator=(const int input) {
@@ -30,7 +26,6 @@ public:
     }
     bool operator!=(CustomMap<K, E>* input) {
         if(index < (input->Size())) {
-            //return false;
             return true;
         }
         return false;
