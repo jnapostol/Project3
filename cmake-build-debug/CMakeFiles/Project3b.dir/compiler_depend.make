@@ -255,6 +255,15 @@ CMakeFiles/Project3b.dir/main.cpp.obj: C:/Users/vnica/OneDrive/Documents/GitHub/
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_vector.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc \
+  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CharacterStats.h \
+  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/MaxHeap.h \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/climits \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/algorithmfwd.h \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_heap.h \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h \
+  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_tempbuf.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/stdc++.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cassert \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/assert.h \
@@ -262,7 +271,6 @@ CMakeFiles/Project3b.dir/main.cpp.obj: C:/Users/vnica/OneDrive/Documents/GitHub/
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/float.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/float.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ciso646 \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/climits \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/csetjmp \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/setjmp.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdarg \
@@ -273,12 +281,6 @@ CMakeFiles/Project3b.dir/main.cpp.obj: C:/Users/vnica/OneDrive/Documents/GitHub/
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdint.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/stdint.h \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/algorithmfwd.h \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_heap.h \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h \
-  C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_tempbuf.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bitset \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/functional \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_function.h \
@@ -395,8 +397,8 @@ CMakeFiles/Project3b.dir/main.cpp.obj: C:/Users/vnica/OneDrive/Documents/GitHub/
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/unordered_set \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_set.h \
   C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/shared_mutex \
-  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CharacterStats.h \
-  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/MaxHeap.h
+  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CustomMap.h \
+  C:/Users/vnica/OneDrive/Documents/GitHub/Project3/Iterator.h
 
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algobase.h:
@@ -811,6 +813,20 @@ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/1
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/vector.tcc:
 
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ciso646:
+
+C:/Users/vnica/OneDrive/Documents/GitHub/Project3/MaxHeap.h:
+
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/climits:
+
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm:
+
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h:
+
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/algorithmfwd.h:
+
+C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h:
+
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cassert:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h:
@@ -818,12 +834,6 @@ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/1
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/assert.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/float.h:
-
-C:/Users/vnica/OneDrive/Documents/GitHub/Project3/MaxHeap.h:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ciso646:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/climits:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/setjmp.h:
 
@@ -840,14 +850,6 @@ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/1
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/stdint.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/x86_64-w64-mingw32/include/stdint.h:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/algorithmfwd.h:
-
-C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/regex:
 
@@ -1012,3 +1014,7 @@ C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/1
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_set.h:
 
 C:/Program\ Files/JetBrains/CLion\ 2023.2/bin/mingw/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/shared_mutex:
+
+C:/Users/vnica/OneDrive/Documents/GitHub/Project3/CustomMap.h:
+
+C:/Users/vnica/OneDrive/Documents/GitHub/Project3/Iterator.h:

@@ -15,6 +15,7 @@ static CharacterStats arr[17][7]; //2D array where rows represents character/age
 static map<string, int> CharNameToIndex; //turns our character name into an index to be used for arr
 static map<string, int> MapNameToIndex; //does the same for map name
 static int GamesOnEachMap[7];
+vector<string> availableMaps;   // flags what user has already chosen
 map<int, pair<string, bool>> GamesInfo;
 vector<map<float, tuple<string, float, float, float>>> CalculatedMapData(7);
 vector<CustomMap<float, tuple<string, float, float, float>>> CalculatedCustomMapData(7);
@@ -297,20 +298,16 @@ void GetData(string& filepath)
     inFile.close();
 }
 void CreateCalculatedMap() {
-    //map<float, tuple<string, float, float, float>> CalculateMap;
     float acs = 1;
     float kda = 1;
     float win_rate = 1;
     float pick_rate = 1;
 
-
     for (int i = 0; i < 7; i++) {
-        cout<<"\nNow Calculating Map: " <<i <<endl;
+        //cout<<"\nNow Calculating Map: " <<i <<endl;
         for (int j = 0; j < 17; j++) {
-            cout<<"row " <<j <<" column " <<i <<endl;
-            //cout<<arr[11][2].kills <<" " <<CharNameToIndex["reyna"] <<endl;
-            //cout<<"Win Rate = " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numGamesWon <<" NumTimesPicked " <<arr[CharNameToIndex["Reyna"]][MapNameToIndex["Breeze"]].numTimesPicked;
-            cout<<"Times Picked: " <<arr[j][i].numTimesPicked <<endl;
+            //cout<<"row " <<j <<" column " <<i <<endl;
+            //cout<<"Times Picked: " <<arr[j][i].numTimesPicked <<endl;
             if(arr[j][i].numTimesPicked == 0) {
                 win_rate = 0;
                 pick_rate = 0;
@@ -323,30 +320,20 @@ void CreateCalculatedMap() {
                 kda = arr[j][i].KDACalculator();
                 CalculatedCustomMapData[i].Insert(win_rate, make_tuple(arr[j][i].agentName, pick_rate, acs, kda));
             }
-            cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
+            //cout<<"Win: " <<win_rate <<" " <<"Pick: " <<pick_rate <<" " <<"ACS: " <<acs <<" " <<"KDA: " <<kda <<endl;
             //CalculatedMapData[i][win_rate] = make_tuple(arr[j][i].agentName, pick_rate, acs, kda);
-            cout<<"inserted at " <<i <<endl;
+            //cout<<"inserted at " <<i <<endl;
         }
     }
-    /*for(int i = 0; i < 7; i++) {
-        cout<<"\n\n\nMap: " <<i <<endl;
-        for(const auto it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++ //const auto it : CalculatedMapData[i]
-            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
-        }
-    }*/
-
     for(int i = 0; i < 7; i++) {
         cout<<"\n\n\nMap: " <<i <<endl;
         for (Iterator<float, tuple<string, float, float, float>> it(CalculatedCustomMapData[i]); it != CalculatedCustomMapData[i].End(); it++) {
             cout<<it.first <<" " <<get<0>(it.second) <<" " <<get<1>(it.second) <<" " <<get<2>(it.second) <<" " <<get<3>(it.second) <<endl;
         }
-        /*for(const auto it : CalculatedMapData[i]) { //auto it = CalculatedMapData[i].begin(); it != CalculatedMapData[i].end; it++ //const auto it : CalculatedMapData[i]
-            cout<<"Character: " <<get<0>(it.second) <<" Win Rate: "<<" " <<it.first <<" Pick Rate: " <<get<1>(it.second) <<" ACS: " <<get<2>(it.second) <<" KDA: " <<get<3>(it.second) <<endl;
-        }*/
     }
 }
 void CreateCalculatedHeap() {
-    cout << "ENTER Heap Calculator"<< endl;
+    //cout << "ENTER Heap Calculator"<< endl;
 
     vector<MaxHeap> heapOfHeaps; // create a vector of heaps
     // each heap contains 17 agents. each agent has a tuple with: WinRate, AgentName, PickRate,ACS, KDA
@@ -359,7 +346,6 @@ void CreateCalculatedHeap() {
     for (int i = 0; i < 7; i++) { // loop through map
         MaxHeap heapObject(17);
         for (int j = 0; j < 17; j++) { //loop through array
-
             currentAgentOnMap = arr[j][i].agentName; // get the current agent name
             win_Rate = ((float) arr[j][i].numGamesWon) / ((float) arr[j][i].numTimesPicked);
             calc_ACS = ((float) arr[j][i].acs) / ((float) arr[j][i].numTimesPicked);
@@ -374,27 +360,27 @@ void CreateCalculatedHeap() {
             //cout << "INSERTING DATA INTO HEAP" << endl;
 
             heapObject.Insert(make_tuple(win_Rate,currentAgentOnMap,pick_Rate, calc_ACS,calc_KDA));
-
         }
-        cout << "PUSHING HEAP INTO VECTOR" << endl;
+        //cout << "PUSHING HEAP INTO VECTOR" << endl;
         heapOfHeaps.push_back(heapObject); // 7 maps each with 17 agents
     }
-
     // MaxHeap obj;
-    cout << "EXTRACTING THE MAX" << endl;
-    /*for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
+    //cout << "EXTRACTING THE MAX" << endl;
+    for (int k = 0; k < heapOfHeaps.size(); k++) { // looping through 7 heaps
         cout << "Max of map " << k << " " <<  get<0>(heapOfHeaps[k].extractMax()) << " " << get<1>(heapOfHeaps[k].extractMax())<<endl;
-    }*/
-
+    }
 }
+/*void PrintHeap(vector<MaxHeap>& heapsVector)
+{
 
+};
 void PrintTable()
 {
     using std::setw;
     std::cout << std::left;
     std::cout <<
               setw(7) << "[Agent Name]" << setw(6) << "[ACS]" << setw(9) << "[Kills]" << "[Deaths]" << "[Assists]" << endl;
-}
+}*/
 
 int main() {
     InitializeCharToIndex();
@@ -404,33 +390,67 @@ int main() {
     GetData(games);
     GetScoreboardData(gameScoreboard);
 
-    // Opening Menu
+    // Initialize chosen maps
+    availableMaps.push_back("Ascent");
+    availableMaps.push_back("Bind");
+    availableMaps.push_back("Breeze");
+    availableMaps.push_back("Fracture");
+    availableMaps.push_back("Haven");
+    availableMaps.push_back("Icebox");
+    availableMaps.push_back("Split");
+
     int dataStructure, option;
     string mapName;
-    cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
-    cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
-    cout << "Pick a data structure to load the stats into." << endl;
-    cout << "1) Map" << endl << "2) Max Heap" << endl;
-    cin >> dataStructure;
+    bool quit = false;
+    while (!availableMaps.empty() && !quit)
+    {
+        // Opening Menu
+        cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
+        cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
+        cout << "Pick a data structure to load the stats into." << endl;
+        cout << "1) Map" << endl << "2) Max Heap" << endl;
+        cin >> dataStructure;
 
-    switch(dataStructure){
-        case 1:
-            CreateCalculatedMap();
-            break;
-        case 2:
-            CreateCalculatedHeap();
-            break;
-        default:
-            cout << "default" << endl;
+        switch(dataStructure){
+            case 1:
+                CreateCalculatedMap();
+                break;
+            case 2:
+                CreateCalculatedHeap();
+                break;
+            default:
+                cout << "default" << endl;
+        }
+        cout << "\n----------Options Menu----------" << endl << "1) Choose a map and see which agents are performing the best on it." << endl << "2) Exit the program" << endl;
+        cin >> option;
+
+        switch(option)
+        {
+            case 1:
+                cout << "\nChoose a map!" << endl << "Available maps: ";
+                for (int i = 0; i < availableMaps.size(); i++)
+                    cout << availableMaps[i] << "  |  ";
+                cin >> mapName;
+                for (int i = 0; i < availableMaps.size(); i++)
+                {
+                    if (mapName == availableMaps[i])
+                    {
+                        availableMaps[i] = "[X]" + availableMaps[i];
+                    }
+                    else
+                    {
+                        cout << "";
+                    }
+                }
+                break;
+            case 2:
+                quit = true;
+        }
+
+
+        // Display the table of character stats and the elapsed time just below it
     }
 
-    cout << "\nChoose a map and see which agents are performing the best on it { Breeze, Bind, Haven, Icebox, Ascent, Split, Fracture }: " << endl;
-    cin >> mapName;
-
-    // Display the table of character stats and the elapsed time just below it
-
-    cout << "\n----------Options Menu----------" << endl << "1) Choose a new map" << endl << "2) Exit the program" << endl;\
-    cin >> option;
 
 
     // input parsing
