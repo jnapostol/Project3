@@ -1,11 +1,9 @@
 #include <string>
+#pragma once
 
 using namespace std;
-//for each row of scoreboard we add ACS, deaths, kills, games played and assists to the map specific values for each character
-//"picked" vector add each name
-//every 10 columns of scoreboard, numGames++ and clear picked
 
-class CharacterStats {
+class CharacterStats { // This class constructs each CharacterStats object aka each Valorant Agent with data
 public:
     int acs;
     int kills;
@@ -16,7 +14,7 @@ public:
     int numGamesWon;
     string agentName;
 
-    CharacterStats() {
+    CharacterStats() { // Constructor that initializes everything to empty
         acs = 0;
         kills = 0;
         deaths = 0;
@@ -26,13 +24,9 @@ public:
         numGamesWon = 0;
         agentName = "";
     }
-    float KDACalculator() {
+
+    float KDACalculator() { // Calculates the Agent's KDA ratio
         float kda = ((float) (kills + assists)) / ((float) deaths);
         return kda;
     }
-
-    /*float PickRateCalculator() { // note that numGames played on each map is a per map variable
-        float pickRate = numGamesPicked/numGames;
-        return pickRate;
-    }*/
 };
