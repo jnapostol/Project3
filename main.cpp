@@ -19,7 +19,8 @@ static map<string, int> CharNameToIndex; // Turns our character name into an ind
 static map<string, int> MapNameToIndex; // Does the same for map name
 static int GamesOnEachMap[7];
 
-vector<string> AvailableMaps; // Flags what user has already chosen
+vector<string> AvailableMaps_CustomMap; // Flags what user has already chosen
+vector<string> AvailableMaps_MaxHeap;
 map<int, pair<string, bool>> GamesInfo;
 vector<CustomMap<float, tuple<string, float, float, float>>> CalculatedCustomMapData(7);
 vector<MaxHeap> HeapOfHeaps; // Create a vector of heaps
@@ -290,22 +291,40 @@ void CreateCalculatedMap() { // Creates a custom map data structure for each map
             }
         }
     }
+    // Calculating and printing the elapsed time below
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - beg);
+    cout << "Elapsed Time to create CUSTOM MAP in microseconds: " << duration.count() << endl;
+}
+void PrintCustomMap(string nameOfMap)
+{
+    int index = MapNameToIndex[nameOfMap]; // Turn the nameOfMap from input into an index;
+
+    bool firstIteration = true;
+    for (Iterator<float, tuple<string, float, float, float>> it(CalculatedCustomMapData[index]); it != CalculatedCustomMapData[index].End(); it++) {
+        if (firstIteration == true)
+        {
+            cout << "\nHighest performing agent on " << IndexToMap(index) <<endl;
+            cout << "Agent Name: " << get<0>(it.second) << endl;
+            cout << "Win Rate: " << fixed << setprecision(2) << it.first << endl;
+            cout << "Pick Rate: " << fixed << setprecision(2)  << get<1>(it.second) << endl;
+            cout << "ACS (Average Combat Score): " << fixed << setprecision(2) << get<2>(it.second) << endl;
+            cout << "KDA (Kills-Deaths-Assists Calculation): " << fixed << setprecision(2) << get<3>(it.second) << endl;
+            firstIteration = false;
+            cout << "\n" << setw(9) << "[Agent Name]" << setw(11) << "[Win Rate]" << setw(12) << "[Pick Rate]" << setw(6) << "[ACS]" << setw(12) << "[KDA]" << endl;
+        }
+        cout << setw(9) << get<0>(it.second)
+             << setw(11) << fixed << setprecision(2) << it.first
+             << setw(11) << fixed << setprecision(2)  << get<1>(it.second)
+             << setw(11) << fixed << setprecision(2)  << get<2>(it.second)
+             << setw(11) << fixed << setprecision(2)  << get<3>(it.second) << endl;
+    }
     /*for(int i = 0; i < 7; i++) { // VERONICA: how to print stuff
         cout<<"\n\n\nMap: " <<i <<endl;
         for (Iterator<float, tuple<string, float, float, float>> it(CalculatedCustomMapData[i]); it != CalculatedCustomMapData[i].End(); it++) {
             cout<<it.first <<" " <<get<0>(it.second) <<" " <<get<1>(it.second) <<" " <<get<2>(it.second) <<" " <<get<3>(it.second) <<endl;
         }
     }*/
-
-    // Calculating and printing the elapsed time below
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<microseconds>(end - beg);
-    cout << "Elapsed Time to create CUSTOM MAP in microseconds: " << duration.count();
-
-}
-void PrintCustomMap(string nameOfMap)
-{
-
 }
 
 void CreateCalculatedHeap() { // Creates a heap per Valorant map - consisting of 17 agents per heap
@@ -369,72 +388,97 @@ int main() {
     GetScoreboardData(gameScoreboard); // Interpret the Game_Scoreboard.csv file and get necessary data
 
     // Initialize chosen maps
-    AvailableMaps.push_back("Ascent");
-    AvailableMaps.push_back("Bind");
-    AvailableMaps.push_back("Breeze");
-    AvailableMaps.push_back("Fracture");
-    AvailableMaps.push_back("Haven");
-    AvailableMaps.push_back("Icebox");
-    AvailableMaps.push_back("Split");
+    AvailableMaps_CustomMap.push_back("Ascent");
+    AvailableMaps_CustomMap.push_back("Bind");
+    AvailableMaps_CustomMap.push_back("Breeze");
+    AvailableMaps_CustomMap.push_back("Fracture");
+    AvailableMaps_CustomMap.push_back("Haven");
+    AvailableMaps_CustomMap.push_back("Icebox");
+    AvailableMaps_CustomMap.push_back("Split");
 
     int dataStructure, option;
     string mapName;
     bool quit = false;
-    while (!AvailableMaps.empty() && !quit)
+    bool firstIteration = true;
+    while (!AvailableMaps_CustomMap.empty() && !quit)
     {
-        // Opening Menu
-        cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
-        cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
-        cout << "Pick a data structure to load the stats into." << endl;
-        cout << "1) Map" << endl << "2) Max Heap" << endl;
-        cin >> dataStructure;
+        if (firstIteration == true)
+        {
+            // Opening Menu
+            cout << "\n~~~~~~~~~~Welcome to our Professional Valorant Match Agent Statistics program!~~~~~~~~~" << endl;
+            cout << "Do you want to get better at Valorant? See what the pros are doing!" << endl;
+            cout << "Pick a data structure to load the stats into." << endl;
+            cout << "1) Map" << endl << "2) Max Heap" << endl;
+            cin >> dataStructure;
 
+            CreateCalculatedMap();
+            CreateCalculatedHeap();
+            firstIteration = false;
+        }
+
+        string otherDataStructure;
         switch(dataStructure){
             case 1:
-                CreateCalculatedMap();
+                otherDataStructure = "max heap";
                 break;
             case 2:
-                CreateCalculatedHeap();
+                otherDataStructure = "custom map";
                 break;
             default:
                 cout << "default" << endl;
         }
-        cout << "\n----------Options Menu----------" << endl << "1) Choose a map and see which agents are performing the best on it." << endl << "2) Exit the program" << endl;
+
+        cout << "\n----------Options Menu----------" << endl
+        << "1) Choose a map and see which agents are performing the best on it." << endl
+        << "2) Pick " << otherDataStructure << endl
+        << "3) Quit program" << endl;
         cin >> option;
 
         switch(option)
         {
             case 1:
-                cout << "\nChoose a map!" << endl << "Available maps: ";
-                for (int i = 0; i < AvailableMaps.size(); i++)
-                    cout << AvailableMaps[i] << "  |  ";
-                cin >> mapName;
-                for (int i = 0; i < AvailableMaps.size(); i++)
-                {
-                    if (mapName == AvailableMaps[i])
-                    {
-                        AvailableMaps[i] = "[X]" + AvailableMaps[i];
-                    }
-                    else
-                    {
-                        cout << "";
-                    }
-                }
-
                 if (dataStructure == 1) {
-                    // print map ds
+                    cout << "\nChoose a map!" << endl << "Available maps: ";
+                    for (int i = 0; i < AvailableMaps_CustomMap.size(); i++)
+                        cout << AvailableMaps_CustomMap[i] << "  |  ";
+                    cin >> mapName;
+                    for (int i = 0; i < AvailableMaps_CustomMap.size(); i++)
+                    {
+                        if (mapName == AvailableMaps_CustomMap[i])
+                        {
+                            AvailableMaps_CustomMap[i] = "[X] " + AvailableMaps_CustomMap[i];
+                        }
+                    }
+                    PrintCustomMap((mapName));
                 }
                 else if (dataStructure == 2) {
+                    cout << "\nChoose a map!" << endl << "Available maps: ";
+                    for (int i = 0; i < AvailableMaps_MaxHeap.size(); i++)
+                        cout << AvailableMaps_MaxHeap[i] << "  |  ";
+                    cin >> mapName;
+                    for (int i = 0; i < AvailableMaps_MaxHeap.size(); i++)
+                    {
+                        if (mapName == AvailableMaps_MaxHeap[i])
+                        {
+                            AvailableMaps_MaxHeap[i] = "[X] " + AvailableMaps_MaxHeap[i];
+                        }
+                    }
                     PrintHeap(mapName);
                 }
-
                 break;
             case 2:
+                if (dataStructure == 2) {
+                    PrintCustomMap((mapName));
+                }
+                else if (dataStructure == 1) {
+                    PrintHeap(mapName);
+                }
+                break;
+            case 3:
+                cout << "Program ended." << endl;
                 quit = true;
-        }
-        // Display the table of character stats and the elapsed time just below it
-    }
 
-    // input parsing
+        }
+    }
     return 0;
 }
